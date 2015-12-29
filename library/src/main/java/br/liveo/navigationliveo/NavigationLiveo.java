@@ -129,10 +129,8 @@ public abstract class NavigationLiveo extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        Log.e("+++", mDrawerLayout == null ? "null" : "not null");
 
         mDrawerToggle = new ActionBarDrawerToggleCompat(this, mDrawerLayout, mToolbar);
-        Log.e("+++", mDrawerLayout == null ? "null" : "not null");
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         mTitleFooter = (TextView) this.findViewById(R.id.titleFooter);

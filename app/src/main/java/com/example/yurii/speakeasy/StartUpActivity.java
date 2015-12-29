@@ -17,6 +17,10 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
     private static String TAGS_FRAGMENT     = "TagsFragment";
     private static String TAG_FRAGMENT      = "TagFragment";
 
+    private static String LESSON_FLAG_KEY   = "LessonFlagKey";
+    private static String CURRENT_FLAG_KEY  = "CurrentFlagKey";
+    private static String PREV_FLAG_KEY     = "PrevFlagKey";
+
     private ContentFragment lessonsFragment;
     private ContentFragment lessonFragment;
     private ContentFragment tagsFragment;
@@ -25,7 +29,7 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
     private HelpLiveo mHelpLiveo;
     private PAGE_TYPE currentWindowState;
     private PAGE_TYPE prevWindowState;
-    private int       currentLesson;
+    private int currentLesson;
 
     public StartUpActivity() {
         currentLesson   = 0;
@@ -54,6 +58,23 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
                     .replace(R.id.tags_frame_layout, tagsFragment, TAGS_FRAGMENT)
                     .commit();
         }
+        updateWindowState();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt(LESSON_FLAG_KEY, currentLesson);
+        savedInstanceState.putInt(CURRENT_FLAG_KEY, currentWindowState.getValue());
+        savedInstanceState.putInt(PREV_FLAG_KEY, prevWindowState.getValue());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        currentLesson  = savedInstanceState.getInt(LESSON_FLAG_KEY);
+        currentWindowState = PAGE_TYPE.fromInteger((int) savedInstanceState.getInt(CURRENT_FLAG_KEY));
+        prevWindowState = PAGE_TYPE.fromInteger((int) savedInstanceState.getInt(PREV_FLAG_KEY));
         updateWindowState();
     }
 
@@ -154,7 +175,6 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
 
     @Override
     public void showLesson(int lesson) {
-        Log.i(TAG, "showLesson");
         if ( currentLesson != lesson ) {
             lessonFragment  = ContentFragment.newInstance(getApplicationContext(), PAGE_TYPE.LESSON, lesson);
             getSupportFragmentManager().beginTransaction()

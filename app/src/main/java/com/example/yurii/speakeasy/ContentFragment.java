@@ -86,21 +86,8 @@ public class ContentFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        Log.e(TAG, "onSaveInstanceState  getScrollY = " + mainView_.getScrollY());
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.e(TAG, "onActivityCreated");
-
-        if (savedInstanceState != null) {
-            Log.e(TAG, "onActivityCreated != null");
-            // Restore last state for checked position.
-            //mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
-        }
     }
 
     public static ContentFragment newInstance(Context context, PAGE_TYPE type, int lesson) {

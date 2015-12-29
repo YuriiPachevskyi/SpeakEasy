@@ -81,7 +81,6 @@ public class DBLessonConfig {
             List<String> result = new ArrayList<String>();
             SQLiteDatabase db = this.getReadableDatabase();
             String query = "select * from lesson_signature";
-            Log.i(TAG, "--- " + query);
             Cursor res =  db.rawQuery(query, null);
 
             if ( res.getCount() ==  0 ) {
