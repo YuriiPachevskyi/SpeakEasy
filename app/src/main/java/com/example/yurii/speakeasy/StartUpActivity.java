@@ -86,8 +86,10 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
             showTagsList();
         } else if ( prevWindowState == PAGE_TYPE.LESSONS || prevWindowState == PAGE_TYPE.TAG ) {
             showLessonsList();
-        } else if ( prevWindowState == PAGE_TYPE.LESSON ) {
+        } else if ( prevWindowState == PAGE_TYPE.LESSON && currentWindowState != PAGE_TYPE.TAGS ) {
             showLesson(currentLesson);
+        } else if ( currentWindowState == PAGE_TYPE.TAGS ) {
+            showLessonsList();
         }
     }
 
