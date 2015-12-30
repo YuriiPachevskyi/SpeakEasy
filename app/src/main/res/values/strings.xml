@@ -6,6 +6,8 @@
 
 
     <string name="lessons">Lessons</string>
+    <string name="lesson">Lesson</string>
+    <string name="homework">Homework</string>
     <string name="speaking">Speaking</string>
     <string name="tags">Tags</string>
     <string name="drafts">Drafts</string>

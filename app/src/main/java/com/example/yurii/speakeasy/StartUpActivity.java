@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+import com.example.yurii.fragment.ViewPagerFragment;
+
 import br.liveo.model.HelpLiveo;
 import br.liveo.interfaces.OnItemClickListener;
 import br.liveo.interfaces.OnPrepareOptionsMenuLiveo;
@@ -21,10 +23,10 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
     private static String CURRENT_FLAG_KEY  = "CurrentFlagKey";
     private static String PREV_FLAG_KEY     = "PrevFlagKey";
 
-    private ContentFragment lessonsFragment;
-    private ContentFragment lessonFragment;
-    private ContentFragment tagsFragment;
-    private ContentFragment tagFragment;
+    private ContentFragment   lessonsFragment;
+    private ViewPagerFragment lessonFragment;
+    private ContentFragment   tagsFragment;
+    private ContentFragment   tagFragment;
 
     private HelpLiveo mHelpLiveo;
     private PAGE_TYPE currentWindowState;
@@ -43,7 +45,7 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
 
         lessonsFragment = (ContentFragment)getSupportFragmentManager()
                 .findFragmentByTag(LESSONS_FRAGMENT);
-        lessonFragment = (ContentFragment)getSupportFragmentManager()
+        lessonFragment = (ViewPagerFragment)getSupportFragmentManager()
                 .findFragmentByTag(LESSON_FRAGMENT);
         tagsFragment    = (ContentFragment) getSupportFragmentManager()
                 .findFragmentByTag(TAGS_FRAGMENT);
@@ -178,7 +180,7 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
     @Override
     public void showLesson(int lesson) {
         if ( currentLesson != lesson ) {
-            lessonFragment  = ContentFragment.newInstance(getApplicationContext(), PAGE_TYPE.LESSON, lesson);
+            lessonFragment  = new ViewPagerFragment(); //ContentFragment.newInstance(getApplicationContext(), PAGE_TYPE.LESSON, lesson);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.lesson_frame_layout, lessonFragment, LESSON_FRAGMENT)
                     .commit();
