@@ -158,7 +158,7 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
 
     public void showTagsList() {
         Log.i(TAG, "showTagsList");
-        prevWindowState = currentWindowState;
+        prevWindowState = PAGE_TYPE.LESSONS;
         currentWindowState = PAGE_TYPE.TAGS;
         updateWindowState();
     }
