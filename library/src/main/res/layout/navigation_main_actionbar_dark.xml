@@ -20,39 +20,39 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-        <!--android:id="@+id/toolbar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="?attr/actionBarSize"-->
-        <!--android:minHeight="?attr/actionBarSize"-->
-        <!--android:background="?attr/colorPrimary"-->
-        <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
-        <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>-->
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <!--<android.support.v4.widget.DrawerLayout-->
-        <!--android:id="@+id/drawerLayout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:statusBarBackground="?attr/colorPrimary"-->
-        <!--tools:ignore="MissingPrefix">-->
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:statusBarBackground="?attr/colorPrimary"
+        tools:ignore="MissingPrefix">
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:fitsSystemWindows="false"-->
-            <!--android:orientation="vertical">-->
-            <!--<include layout="@layout/navigation_container" />-->
-        <!--</LinearLayout>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="false"
+            android:orientation="vertical">
+            <include layout="@layout/navigation_container" />
+        </LinearLayout>
 
-        <!--<android.support.design.internal.ScrimInsetsFrameLayout-->
-            <!--android:id="@+id/relativeDrawer"-->
-            <!--android:layout_width="@dimen/drawer_layout_width"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="start"-->
-            <!--app:insetForeground="#4000">-->
+        <android.support.design.internal.ScrimInsetsFrameLayout
+            android:id="@+id/relativeDrawer"
+            android:layout_width="@dimen/drawer_layout_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:insetForeground="#4000">
 
-            <!--<include layout="@layout/navigation_list_drawer" />-->
-        <!--</android.support.design.internal.ScrimInsetsFrameLayout>-->
-    <!--</android.support.v4.widget.DrawerLayout>-->
+            <include layout="@layout/navigation_list_drawer" />
+        </android.support.design.internal.ScrimInsetsFrameLayout>
+    </android.support.v4.widget.DrawerLayout>
 </LinearLayout>
