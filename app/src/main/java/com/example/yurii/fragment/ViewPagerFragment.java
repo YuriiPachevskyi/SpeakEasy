@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yurii.adapter.TabPagerItem;
 import com.example.yurii.adapter.ViewPagerAdapter;
+import com.example.yurii.speakeasy.ContentFragment;
 import com.example.yurii.speakeasy.R;
+import com.example.yurii.speakeasy.StartUpMediator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +29,16 @@ public class ViewPagerFragment extends Fragment {
     }
 
     private void createTabPagerItem(){
-        mTabs.add(new TabPagerItem(getString(R.string.lessons), MainFragment.newInstance(getString(R.string.lessons))));
+        Log.e("createTabPagerItem", "test");
+
+        if ( getContext() == null ) {
+            Log.e("createTabPagerItem", "context == null");
+        }
+
+        mTabs.add(new TabPagerItem(getString(R.string.lesson), ContentFragment.newInstance(getContext(), StartUpMediator.PAGE_TYPE.LESSON, 30)));
         mTabs.add(new TabPagerItem(getString(R.string.homework), MainFragment.newInstance(getString(R.string.homework))));
+//        mTabs.add(new TabPagerItem(getString(R.string.lessons), MainFragment.newInstance(getString(R.string.lessons))));
+
     }
 
     @Override
