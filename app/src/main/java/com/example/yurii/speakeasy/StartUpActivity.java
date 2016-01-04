@@ -63,8 +63,8 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         actionBarNode = getLayoutInflater().inflate(R.layout.custom_actionbar, null);
 
         if ( savedInstanceState == null ) {
-            lessonsFragment = ContentFragment.newInstance(getApplicationContext(), PAGE_TYPE.LESSONS, "");
-            tagsFragment    = ContentFragment.newInstance(getApplicationContext(), PAGE_TYPE.TAGS, "");
+            lessonsFragment = ContentFragment.newInstance(PAGE_TYPE.LESSONS, 0, "");
+            tagsFragment    = ContentFragment.newInstance(PAGE_TYPE.TAGS, 0, "");
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.lessons_frame_layout, lessonsFragment, LESSONS_FRAGMENT)
                     .replace(R.id.tags_frame_layout, tagsFragment, TAGS_FRAGMENT)
@@ -180,7 +180,7 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         Log.i(TAG, "showMaterial");
         prevWindowState    = currentWindowState;
         currentWindowState = PAGE_TYPE.TAG;
-        tagFragment     = ContentFragment.newInstance(getApplicationContext(), currentWindowState, tag);
+        tagFragment     = ContentFragment.newInstance(currentWindowState, 0, tag);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.tag_frame_layout, tagFragment, TAG_FRAGMENT)
                 .commit();

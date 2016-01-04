@@ -2,7 +2,6 @@ package com.example.yurii.speakeasy;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -24,37 +23,31 @@ import java.util.List;
 import static com.example.yurii.speakeasy.StartUpMediator.PAGE_TYPE;
 
 public class ContentFragment extends Fragment {
-
     private static String TAG = "ContentFragment";
+    private int lesson_;
     StartUpActivity mediator_;
-    private Context context_;
     private PAGE_TYPE pageType_;
     private LayoutInflater mainInflater_;
-    private PageConstructor constructor_;
     private String currentTag_;
-    private int lesson_;
     private ScrollView mainView_;
 
-    public ContentFragment(Context context, PAGE_TYPE pageType, int lesson) {
-        this.setRetainInstance(true);
-        lesson_ = lesson;
-        context_ = context;
-        pageType_ = pageType;
-        constructor_ = null;
-    }
+    private static String LESSON_FLAG_KEY    = "LessonFlagKey";
+    private static String PAGE_TYPE_FLAG_KEY = "PageTypeFlagKey";
+    private static String TAG_FLAG_KEY       = "TagFlagKey";
 
-    public ContentFragment(Context context, PAGE_TYPE pageType, String tag) {
-        this(context, pageType, 0);
-        currentTag_ = tag;
-    }
-
-    public Context getFragmentContext() {
-        return context_;
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        lesson_       = getArguments().getInt(LESSON_FLAG_KEY);
+        currentTag_   = getArguments().getString(TAG_FLAG_KEY);
+        pageType_     = PAGE_TYPE.fromInteger((int) getArguments().getInt(PAGE_TYPE_FLAG_KEY));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        PageConstructor constructor = null;
         mainInflater_ = inflater;
 
         try {
@@ -64,19 +57,19 @@ public class ContentFragment extends Fragment {
         }
 
         if ( pageType_ == PAGE_TYPE.TAG ) {
-            constructor_ = new MaterialConstructor(this);
+            constructor = new MaterialConstructor(this);
         } else if ( pageType_ == PAGE_TYPE.LESSON ) {
-            constructor_ = new LessonConstructor(this);
+            constructor = new LessonConstructor(this);
         } else if ( pageType_ == PAGE_TYPE.LESSONS ) {
-            constructor_ = new LessonsConstructor(this);
+            constructor = new LessonsConstructor(this);
         } else if ( pageType_ == PAGE_TYPE.TAGS ) {
-            constructor_ = new TagsConstructor(this);
+            constructor = new TagsConstructor(this);
         }
         mainView_ = (ScrollView) inflater.inflate(R.layout.common_scroll_view, null);
-        constructor_.setMainView(mainView_);
-        constructor_.constructPage();
+        constructor.setMainView(mainView_);
+        constructor.constructPage();
 
-        return constructor_.getMainView();
+        return constructor.getMainView();
     }
 
     @Override
@@ -90,12 +83,16 @@ public class ContentFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public static ContentFragment newInstance(Context context, PAGE_TYPE type, int lesson) {
-        return new ContentFragment(context, type, lesson);
-    }
+    public static ContentFragment newInstance(PAGE_TYPE type, int lesson, String tag) {
+        ContentFragment contentFragment = new ContentFragment();
+        Bundle bundle = new Bundle(3);
 
-    public static ContentFragment newInstance(Context context, PAGE_TYPE type, String tag) {
-        return new ContentFragment(context, type, tag);
+        bundle.putInt(LESSON_FLAG_KEY, lesson);
+        bundle.putInt(PAGE_TYPE_FLAG_KEY, type.getValue());
+        bundle.putString(TAG_FLAG_KEY, tag);
+        contentFragment.setArguments(bundle);
+
+        return contentFragment;
     }
 
     public class PageConstructor {
@@ -125,8 +122,8 @@ public class ContentFragment extends Fragment {
 
         public LessonConstructor(ContentFragment fragment) {
             super(fragment);
-            material_     = new DBMaterial(context_, lesson_);
-            lessonConfig_ = new DBLessonConfig(context_, lesson_);
+            material_     = new DBMaterial(getContext(), lesson_);
+            lessonConfig_ = new DBLessonConfig(getContext(), lesson_);
         }
 
         public void constructPage() {
@@ -142,7 +139,7 @@ public class ContentFragment extends Fragment {
                         break;
                     }
                     case "vocabulary": {
-                        page_.setVocabulary(new DBVocabulary(context_).getVocabularyByLesson(lesson_));
+                        page_.setVocabulary(new DBVocabulary(getContext()).getVocabularyByLesson(lesson_));
                         break;
                     }
                     case "tag": {
@@ -178,7 +175,7 @@ public class ContentFragment extends Fragment {
 
         public MaterialConstructor(ContentFragment fragment) {
             super(fragment);
-            material_ = new DBMaterial(context_, lesson_);
+            material_ = new DBMaterial(getContext(), lesson_);
             Log.e(TAG, "result = " + material_.getFullTagsList());
         }
 
@@ -194,7 +191,7 @@ public class ContentFragment extends Fragment {
         }
 
         public void constructPage() {
-            DBLessonConfig config = new DBLessonConfig(context_, 0);
+            DBLessonConfig config = new DBLessonConfig(getContext(), 0);
             page_.setOnclickLessons(config.getLessonsList());
         }
     }
@@ -203,7 +200,7 @@ public class ContentFragment extends Fragment {
 
         public TagsConstructor(ContentFragment fragment) {
             super(fragment);
-            material_ = new DBMaterial(context_, lesson_);
+            material_ = new DBMaterial(getContext(), lesson_);
         }
 
         public void constructPage() {

@@ -28,17 +28,9 @@ public class ViewPagerFragment extends Fragment {
         createTabPagerItem();
     }
 
-    private void createTabPagerItem(){
-        Log.e("createTabPagerItem", "test");
-
-        if ( getContext() == null ) {
-            Log.e("createTabPagerItem", "context == null");
-        }
-
-        mTabs.add(new TabPagerItem(getString(R.string.lesson), ContentFragment.newInstance(getContext(), StartUpMediator.PAGE_TYPE.LESSON, 30)));
+    private void createTabPagerItem() {
+        mTabs.add(new TabPagerItem(getString(R.string.lesson), ContentFragment.newInstance(StartUpMediator.PAGE_TYPE.LESSON, 30, "")));
         mTabs.add(new TabPagerItem(getString(R.string.homework), MainFragment.newInstance(getString(R.string.homework))));
-//        mTabs.add(new TabPagerItem(getString(R.string.lessons), MainFragment.newInstance(getString(R.string.lessons))));
-
     }
 
     @Override
