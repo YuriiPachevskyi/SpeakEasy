@@ -190,7 +190,7 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
     @Override
     public void showLesson(int lesson) {
         if ( currentLesson != lesson ) {
-            lessonFragment = new ViewPagerFragment();
+            lessonFragment = ViewPagerFragment.newInstance(lesson);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.lesson_frame_layout, lessonFragment, LESSON_FRAGMENT)
                     .commit();

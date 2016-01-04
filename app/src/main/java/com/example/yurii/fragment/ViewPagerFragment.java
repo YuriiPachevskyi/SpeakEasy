@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 import com.example.yurii.adapter.TabPagerItem;
 import com.example.yurii.adapter.ViewPagerAdapter;
@@ -20,16 +21,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewPagerFragment extends Fragment {
+    public static String TAG = "ViewPagerFragment";
     private List<TabPagerItem> mTabs = new ArrayList<>();
+    private int lesson_;
+    private static String LESSON_FLAG_KEY    = "LessonFlagKey";
+
+    public static ViewPagerFragment newInstance(int lesson) {
+        ViewPagerFragment viewPagerFragment = new ViewPagerFragment();
+        Bundle bundle = new Bundle(1);
+
+        bundle.putInt(LESSON_FLAG_KEY, lesson);
+        viewPagerFragment.setArguments(bundle);
+
+        return viewPagerFragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        lesson_ = getArguments().getInt(LESSON_FLAG_KEY);
+        Log.e(TAG, "onCreate lesson = " + lesson_);
         createTabPagerItem();
     }
 
     private void createTabPagerItem() {
-        mTabs.add(new TabPagerItem(getString(R.string.lesson), ContentFragment.newInstance(StartUpMediator.PAGE_TYPE.LESSON, 30, "")));
+        Log.e(TAG, "createTabPagerItem");
+        mTabs.add(new TabPagerItem(getString(R.string.lesson), ContentFragment.newInstance(StartUpMediator.PAGE_TYPE.LESSON, lesson_, "")));
         mTabs.add(new TabPagerItem(getString(R.string.homework), MainFragment.newInstance(getString(R.string.homework))));
     }
 
@@ -37,7 +54,6 @@ public class ViewPagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_viewpager, container, false);
-        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
         return rootView;
     }
 
