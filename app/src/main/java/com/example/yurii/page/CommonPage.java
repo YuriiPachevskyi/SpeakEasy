@@ -124,7 +124,7 @@ public class CommonPage {
         String examples = exercise.getExamples();
         String content  = exercise.getContent();
 
-        setSignature(exercise.getSignature(), "");
+        setSignature(exercise.getSignature(), "", false);
         if ( !examples.isEmpty() ) {
             setInstruction("Example:");
 //                Log.e(TAG, examples);
@@ -143,7 +143,7 @@ public class CommonPage {
         String examples = exercise.getExamples();
         String content  = exercise.getContent();
 
-        setSignature(exercise.getSignature(), "");
+        setSignature(exercise.getSignature(), "", false);
         if ( !exercise.getContent().isEmpty() ) {
             String text = new String();
             List<String> contentList = new ArrayList(Arrays.asList(content.split("\\|")));
@@ -171,7 +171,7 @@ public class CommonPage {
         String content      = exercise.getContent();
         String subContent   = exercise.getSubContent();
 
-        setSignature(exercise.getSignature(), "");
+        setSignature(exercise.getSignature(), "", false);
         if ( !examples.isEmpty() ) {
             int resID = parentFragment_.getResources().getIdentifier(exercise.getExamples(), "drawable", parentFragment_.getContext().getPackageName());
             ImageView image = new ImageView(parentFragment_.getContext());
@@ -190,17 +190,19 @@ public class CommonPage {
         }
     }
 
-    public void setSignature(String str, String color) {
+    public void setSignature(final String str, String color, boolean setListener) {
         TextView textView = getSimpleTextView(str);
 
         if ( color == "GREEN" ) {
             textView.setBackgroundColor(parentFragment_.getResources().getColor(R.color.backgroundGreenColor));
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View viewIn) {
-                        parentFragment_.mediator_.showMaterial(((TextView) viewIn).getText().toString());
-                }
-            });
+            if ( setListener == true ) {
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View viewIn) {
+                        parentFragment_.mediator_.showMaterial(str);
+                    }
+                });
+            }
         } else if ( color == "YELLOW" ) {
             textView.setBackgroundColor(parentFragment_.getResources().getColor(R.color.backgroundYellowColor));
         }
@@ -219,7 +221,7 @@ public class CommonPage {
     public void setMaterial(String tag, DBMaterial materialDB) {
         List<String> contentList = materialDB.getContentList(tag);
 
-        setSignature(tag, "GREEN");
+        setSignature(tag, "GREEN", !materialDB.getContentList(tag).isEmpty());
         for ( String subContent: contentList ) {
             if ( !subContent.isEmpty() ) {
                 trimConfigValuesAndSetTextView(subContent);
@@ -336,7 +338,7 @@ public class CommonPage {
         if ( !exercise.getContent().isEmpty() ) {
             List<String> signatures_pictures = new ArrayList(Arrays.asList(exercise.getContent().split("\\^")));
 
-            setSignature(exercise.getSignature(), "");
+            setSignature(exercise.getSignature(), "", false);
             if ( !examples.isEmpty() ) {
                 setInstruction("Example:");
                 setColumnDividedTextView(displayWidth / 2, new ArrayList(Arrays.asList(examples.split("\\|"))));
