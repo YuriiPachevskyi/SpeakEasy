@@ -39,9 +39,41 @@ public class ContentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        lesson_       = getArguments().getInt(LESSON_FLAG_KEY);
-        currentTag_   = getArguments().getString(TAG_FLAG_KEY);
-        pageType_     = PAGE_TYPE.fromInteger((int) getArguments().getInt(PAGE_TYPE_FLAG_KEY));
+        lesson_     = getArguments().getInt(LESSON_FLAG_KEY);
+        currentTag_ = getArguments().getString(TAG_FLAG_KEY);
+        pageType_   = PAGE_TYPE.fromInteger((int) getArguments().getInt(PAGE_TYPE_FLAG_KEY));
+    }
+
+    public static ContentFragment newInstance(PAGE_TYPE type) {
+        ContentFragment contentFragment = new ContentFragment();
+        Bundle bundle = new Bundle(1);
+
+        bundle.putInt(PAGE_TYPE_FLAG_KEY, type.getValue());
+        contentFragment.setArguments(bundle);
+
+        return contentFragment;
+    }
+
+    public static ContentFragment newInstance(int lesson) {
+        ContentFragment contentFragment = new ContentFragment();
+        Bundle bundle = new Bundle(2);
+
+        bundle.putInt(LESSON_FLAG_KEY, lesson);
+        bundle.putInt(PAGE_TYPE_FLAG_KEY, PAGE_TYPE.LESSON.getValue());
+        contentFragment.setArguments(bundle);
+
+        return contentFragment;
+    }
+
+    public static ContentFragment newInstance(String tag) {
+        ContentFragment contentFragment = new ContentFragment();
+        Bundle bundle = new Bundle(2);
+
+        bundle.putInt(PAGE_TYPE_FLAG_KEY, PAGE_TYPE.TAG.getValue());
+        bundle.putString(TAG_FLAG_KEY, tag);
+        contentFragment.setArguments(bundle);
+
+        return contentFragment;
     }
 
     @Override
@@ -81,18 +113,6 @@ public class ContentFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }
-
-    public static ContentFragment newInstance(PAGE_TYPE type, int lesson, String tag) {
-        ContentFragment contentFragment = new ContentFragment();
-        Bundle bundle = new Bundle(3);
-
-        bundle.putInt(LESSON_FLAG_KEY, lesson);
-        bundle.putInt(PAGE_TYPE_FLAG_KEY, type.getValue());
-        bundle.putString(TAG_FLAG_KEY, tag);
-        contentFragment.setArguments(bundle);
-
-        return contentFragment;
     }
 
     public class PageConstructor {
