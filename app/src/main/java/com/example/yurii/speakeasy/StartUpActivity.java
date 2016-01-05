@@ -71,6 +71,11 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
                     .commit();
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(actionBarNode, new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT));
+        ((Toolbar) actionBarNode.getParent()).setContentInsetsAbsolute(0, 0);
+        updateWindowState(true);
     }
 
     @Override
@@ -113,7 +118,6 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         mHelpLiveo = new HelpLiveo();
         mHelpLiveo.add(getString(R.string.lessons), R.mipmap.ic_star_black_24dp);
         mHelpLiveo.add(getString(R.string.speaking), R.mipmap.ic_inbox_black_24dp);
-        mHelpLiveo.addSubHeader(getString(R.string.categories));
         mHelpLiveo.add(getString(R.string.tags), R.mipmap.ic_send_black_24dp);
 
 
@@ -139,9 +143,9 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
             case 1:
                 break;
             case 2:
+                showTagsList();
                 break;
             case 3:
-                showTagsList();
                 break;
             default:
                 break;
@@ -159,20 +163,21 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         Log.i(TAG, "showLessonsList");
         prevWindowState = currentWindowState;
         currentWindowState = PAGE_TYPE.LESSONS;
-        updateWindowState(false);
+
+        updateWindowState(currentLesson != 0 || prevWindowState != PAGE_TYPE.LESSONS);
     }
 
     public void showSpeakingList() {
         Log.i(TAG, "showSpeakingList");
         prevWindowState = currentWindowState;
-        updateWindowState(false);
+        updateWindowState(true);
     }
 
     public void showTagsList() {
         Log.i(TAG, "showTagsList");
         prevWindowState = PAGE_TYPE.LESSONS;
         currentWindowState = PAGE_TYPE.TAGS;
-        updateWindowState(false);
+        updateWindowState(true);
     }
 
     @Override
@@ -216,15 +221,13 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
     }
 
     public void updateActionBar() {
-        ((TextView) actionBarNode.findViewById(R.id.lesson_number))
-                .setText(String.valueOf(currentLesson));
-        ((TextView) actionBarNode.findViewById(R.id.lesson_theme))
-                .setText(new DBLessonConfig(getApplicationContext(), currentLesson).getSignature());
-        if ( currentWindowState == PAGE_TYPE.LESSON ) {
-            getSupportActionBar().setDisplayShowCustomEnabled(true);
-            getSupportActionBar().setCustomView(actionBarNode, new ActionBar.LayoutParams(
-                    ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT));
-            ((Toolbar) actionBarNode.getParent()).setContentInsetsAbsolute(0, 0);
+        if ( currentWindowState == PAGE_TYPE.LESSONS ) {
+            ((TextView) actionBarNode.findViewById(R.id.lesson_theme)).setText("Lessons");
+        } else if ( currentWindowState == PAGE_TYPE.TAGS ) {
+            ((TextView) actionBarNode.findViewById(R.id.lesson_theme)).setText("Tags");
+        } else if ( currentWindowState == PAGE_TYPE.LESSON ) {
+            ((TextView) actionBarNode.findViewById(R.id.lesson_theme)).setText( String.valueOf(currentLesson)
+                    + " " + new DBLessonConfig(getApplicationContext(), currentLesson).getSignature());
         }
     }
 }
