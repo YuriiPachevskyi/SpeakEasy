@@ -144,7 +144,7 @@ public class CommonPage {
         String content  = exercise.getContent();
 
         setSignature(exercise.getSignature(), "", false);
-        if ( !exercise.getContent().isEmpty() ) {
+        if ( !content.isEmpty() ) {
             String text = new String();
             List<String> contentList = new ArrayList(Arrays.asList(content.split("\\|")));
             for ( int i = 0; i < contentList.size(); i++ ) {
