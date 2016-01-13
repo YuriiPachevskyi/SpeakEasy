@@ -117,7 +117,6 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         // Creating items navigation
         mHelpLiveo = new HelpLiveo();
         mHelpLiveo.add(getString(R.string.lessons), R.mipmap.ic_star_black_24dp);
-        mHelpLiveo.add(getString(R.string.speaking), R.mipmap.ic_inbox_black_24dp);
         mHelpLiveo.add(getString(R.string.tags), R.mipmap.ic_send_black_24dp);
 
 
@@ -141,9 +140,9 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
                 showLessonsList();
                 break;
             case 1:
+                showTagsList();
                 break;
             case 2:
-                showTagsList();
                 break;
             case 3:
                 break;
@@ -163,14 +162,7 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         Log.i(TAG, "showLessonsList");
         prevWindowState = currentWindowState;
         currentWindowState = PAGE_TYPE.LESSONS;
-
         updateWindowState(currentLesson != 0 || prevWindowState != PAGE_TYPE.LESSONS);
-    }
-
-    public void showSpeakingList() {
-        Log.i(TAG, "showSpeakingList");
-        prevWindowState = currentWindowState;
-        updateWindowState(true);
     }
 
     public void showTagsList() {
