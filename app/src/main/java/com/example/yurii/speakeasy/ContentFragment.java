@@ -97,8 +97,6 @@ public class ContentFragment extends Fragment {
         } else if ( pageType_ == PAGE_TYPE.TAGS ) {
             constructor = new TagsConstructor(this);
         }
-        mainView_ = (ScrollView) inflater.inflate(R.layout.common_scroll_view, null);
-        constructor.setMainView(mainView_);
         constructor.constructPage();
 
         return constructor.getMainView();
@@ -125,10 +123,6 @@ public class ContentFragment extends Fragment {
         }
 
         public void constructPage() {
-        }
-
-        public void setMainView(ScrollView mainView) {
-            page_.setMainView(mainView);
         }
 
         public View getMainView() {

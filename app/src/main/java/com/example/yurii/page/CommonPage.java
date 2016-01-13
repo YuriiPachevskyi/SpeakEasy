@@ -1,13 +1,8 @@
 package com.example.yurii.speakeasy;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +14,6 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.example.yurii.database.DBExercise;
-import com.example.yurii.database.DBLessonConfig;
 import com.example.yurii.database.DBMaterial;
 
 import java.util.ArrayList;
@@ -28,8 +22,7 @@ import java.util.List;
 
 public class CommonPage {
     private static String TAG = "CommonPage";
-    private TableLayout.LayoutParams layoutParams;
-    private LinearLayout.LayoutParams pExLayoutParams1;
+    private ViewGroup.LayoutParams layoutParams;
     private ContentFragment parentFragment_;
     private ScrollView mainView_;
     private TableLayout    mainTableLayout;
@@ -44,21 +37,13 @@ public class CommonPage {
         Point size      = new Point();
         parentFragment_ = fragment;
         mainTableLayout = (TableLayout) new TableLayout(parentFragment_.getContext());
+        layoutParams    = new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        mainView_       = (ScrollView) inflater.inflate(R.layout.common_scroll_view, null);
         parentFragment_.getActivity().getWindowManager().getDefaultDisplay().getSize(size);
         displayWidth    = size.x;
         displayHeight   = size.y;
         minColumnWidth  = displayWidth < displayHeight ? displayWidth/2 : displayHeight/2;
         maxColumnWidth  = displayWidth < displayHeight ? displayHeight/2 : displayWidth/2;
-        layoutParams    = new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        pExLayoutParams1 = displayWidth < displayHeight ? new LinearLayout.LayoutParams(displayWidth/3, displayWidth/3) :
-                new LinearLayout.LayoutParams(displayWidth/3, displayHeight/3);
-    }
-
-    public void setMainView(ScrollView mainView) {
-        mainView_ = mainView;
-        ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mainView_.setLayoutParams(lparams);
     }
 
     public TextView getSimpleTextView(String str) {
@@ -127,15 +112,12 @@ public class CommonPage {
         setSignature(exercise.getSignature(), "", false);
         if ( !examples.isEmpty() ) {
             setInstruction("Example:");
-//                Log.e(TAG, examples);
             setColumnDividedTextView(displayWidth / 2, new ArrayList(Arrays.asList(examples.split("\\|"))));
         }
         if ( !content.isEmpty() ) {
-//                Log.e(TAG, content);
             trimConfigValuesAndSetTextView(content);
         }
     }
-
 
     public void setPictureExercise1(int section, int lesson) {
         DBExercise exercise = new DBExercise(parentFragment_.getContext(), lesson, section);
@@ -153,11 +135,14 @@ public class CommonPage {
             llv.addView(getSimpleTextView(text));
         }
         if ( !examples.isEmpty() ) {
-            int resID = parentFragment_.getResources().getIdentifier(examples, "drawable", parentFragment_.getContext().getPackageName());
+            int resID = parentFragment_.getResources().getIdentifier(examples, "drawable",
+                    parentFragment_.getContext().getPackageName());
             ImageView image = new ImageView(parentFragment_.getContext());
 
             image.setImageResource(resID);
-            image.setLayoutParams(pExLayoutParams1);
+            image.setLayoutParams(displayWidth < displayHeight ?
+                    new LinearLayout.LayoutParams(displayWidth/3, displayWidth/3) :
+                    new LinearLayout.LayoutParams(displayWidth/3, displayHeight/3));
             image.setPadding(5, 5, 5, 5);
             llv.addView(image);
         }
@@ -173,7 +158,8 @@ public class CommonPage {
 
         setSignature(exercise.getSignature(), "", false);
         if ( !examples.isEmpty() ) {
-            int resID = parentFragment_.getResources().getIdentifier(exercise.getExamples(), "drawable", parentFragment_.getContext().getPackageName());
+            int resID = parentFragment_.getResources().getIdentifier(examples, "drawable",
+                    parentFragment_.getContext().getPackageName());
             ImageView image = new ImageView(parentFragment_.getContext());
 
             image.setImageResource(resID);
@@ -194,7 +180,8 @@ public class CommonPage {
         TextView textView = getSimpleTextView(str);
 
         if ( color == "GREEN" ) {
-            textView.setBackgroundColor(parentFragment_.getResources().getColor(R.color.backgroundGreenColor));
+            textView.setBackgroundColor(parentFragment_.getResources()
+                    .getColor(R.color.backgroundGreenColor));
             if ( setListener == true ) {
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -204,7 +191,8 @@ public class CommonPage {
                 });
             }
         } else if ( color == "YELLOW" ) {
-            textView.setBackgroundColor(parentFragment_.getResources().getColor(R.color.backgroundYellowColor));
+            textView.setBackgroundColor(parentFragment_.getResources()
+                    .getColor(R.color.backgroundYellowColor));
         }
         textView.setPadding(6, 0, 6, 0);
         textView.setTypeface(null, Typeface.BOLD);
@@ -283,9 +271,6 @@ public class CommonPage {
     }
 
     public void trimConfigValuesAndSetTextView(String content) {
-//            if ( content.isEmpty() ) {
-//                return;
-//            }
         int minColumnQuantity = 1;
         int maxColumnQuantity = 1;
 
@@ -298,12 +283,13 @@ public class CommonPage {
 //            Log.e(TAG, "NumberFormatException, error number is not valid content = " + content);
         }
 
+        List<String> list = new ArrayList(Arrays.asList(content.split("\\|")));
         if ( minColumnQuantity == maxColumnQuantity ) {
-            setColumnDividedTextView(displayWidth/minColumnQuantity, new ArrayList(Arrays.asList(content.split("\\|"))));
+            setColumnDividedTextView(displayWidth/minColumnQuantity, list);
         } else if ( minColumnQuantity > maxColumnQuantity ) {
-            setColumnDividedTextView(minColumnWidth, new ArrayList(Arrays.asList(content.split("\\|"))));
+            setColumnDividedTextView(minColumnWidth, list);
         } else {
-            setColumnDividedTextView(maxColumnWidth, new ArrayList(Arrays.asList(content.split("\\|"))));
+            setColumnDividedTextView(maxColumnWidth, list);
         }
     }
 
@@ -334,33 +320,32 @@ public class CommonPage {
     public void setColumnDividedImageView(int section, int lesson) {
         DBExercise exercise = new DBExercise(parentFragment_.getContext(), lesson, section);
         String examples     = exercise.getExamples();
+        String content      = exercise.getContent();
 
-        if ( !exercise.getContent().isEmpty() ) {
-            List<String> signatures_pictures = new ArrayList(Arrays.asList(exercise.getContent().split("\\^")));
+        if ( !content.isEmpty() ) {
+            List<String> signatures_pictures = new ArrayList(Arrays.asList(content.split("\\^")));
 
             setSignature(exercise.getSignature(), "", false);
             if ( !examples.isEmpty() ) {
                 setInstruction("Example:");
                 setColumnDividedTextView(displayWidth / 2, new ArrayList(Arrays.asList(examples.split("\\|"))));
             }
-            if ( signatures_pictures.size() > 0 ) {
-                List<String> test = new ArrayList(Arrays.asList(signatures_pictures.get(0).split("\\|")));
-            }
             if ( signatures_pictures.size() > 1 ) {
                 List<String> picturesList = new ArrayList(Arrays.asList(signatures_pictures.get(1).split("\\|")));
 
-                for ( int i = 0; i < picturesList.size(); i++ ) {
+                for ( int i = 0; i < picturesList.size(); ) {
                     LinearLayout llv = new LinearLayout(parentFragment_.getContext());
-                    for ( int j = 0; j < 3 && i < picturesList.size() ; j++, i++ ) {
-                        int resID = parentFragment_.getResources().getIdentifier(picturesList.get(i), "drawable", parentFragment_.getContext().getPackageName());
-                        ImageView image = new ImageView(parentFragment_.getContext());
 
-                        image.setImageResource(resID);
-                        image.setLayoutParams(layoutParams);
-                        image.setPadding(6, 0, 6, 6);
-                        llv.addView(image);
+                    for ( int j = 0; j < 3 && i < picturesList.size(); j++, i++ ) {
+                        ImageView imageView = new ImageView(parentFragment_.getContext());
+                        int resID = parentFragment_.getResources().getIdentifier(picturesList.get(i),
+                                "drawable", parentFragment_.getContext().getPackageName());
+
+                        imageView.setImageResource(resID);
+                        imageView.setLayoutParams(layoutParams);
+                        imageView.setPadding(6, 0, 6, 6);
+                        llv.addView(imageView);
                     }
-                    i -= 1;
                     mainTableLayout.addView(llv);
                 }
             }
