@@ -46,8 +46,9 @@ public class ViewPagerFragment extends Fragment {
 
     private void createTabPagerItem() {
         Log.e(TAG, "createTabPagerItem");
-        mTabs.add(new TabPagerItem(getString(R.string.lesson), ContentFragment.newInstance(lesson_)));
+        mTabs.add(new TabPagerItem(getString(R.string.lesson), ContentFragment.newInstance(lesson_, StartUpMediator.PAGE_TYPE.LESSON)));
         mTabs.add(new TabPagerItem(getString(R.string.homework), MainFragment.newInstance(getString(R.string.homework))));
+        mTabs.add(new TabPagerItem(getString(R.string.speaking), ContentFragment.newInstance(lesson_, StartUpMediator.PAGE_TYPE.SPEAKING)));
     }
 
     @Override

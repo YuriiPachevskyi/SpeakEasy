@@ -45,4 +45,21 @@ public class DBVocabulary extends SQLiteOpenHelper {
 
         return result;
     }
+
+    public List<String> getVocabularyByLessonWithoutTranslate(int lesson) {
+        List<String> result = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select * from vocabulary where " + LESSON_ID + " = " + lesson;
+        Cursor res =  db.rawQuery(query, null);
+
+        for ( int i = 0; i < res.getCount(); i++ ) {
+            res.moveToNext();
+            String element = new String(res.getString(res.getColumnIndex(WORLD)));
+            result.add(element);
+        }
+        db.close();
+        res.close();
+
+        return result;
+    }
 }

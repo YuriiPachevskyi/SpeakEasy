@@ -32,7 +32,7 @@ public class DBExercise extends SQLiteOpenHelper  {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
-    public String getSignature() {
+    public String getLessonSignature() {
         String result;
         SQLiteDatabase db = this.getReadableDatabase();
         String query      = "select Signature from exercise where Lesson = " + lesson_
@@ -48,7 +48,7 @@ public class DBExercise extends SQLiteOpenHelper  {
         return result;
     }
 
-    public String getExamples() {
+    public String getLessonExamples() {
         String result     = new String();
         SQLiteDatabase db = this.getReadableDatabase();
         String query      = "select Example from exercise where Example is not null and Lesson = "

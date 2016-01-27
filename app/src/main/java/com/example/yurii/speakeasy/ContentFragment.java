@@ -54,12 +54,12 @@ public class ContentFragment extends Fragment {
         return contentFragment;
     }
 
-    public static ContentFragment newInstance(int lesson) {
+    public static ContentFragment newInstance(int lesson, PAGE_TYPE pageType) {
         ContentFragment contentFragment = new ContentFragment();
         Bundle bundle = new Bundle(2);
 
         bundle.putInt(LESSON_FLAG_KEY, lesson);
-        bundle.putInt(PAGE_TYPE_FLAG_KEY, PAGE_TYPE.LESSON.getValue());
+        bundle.putInt(PAGE_TYPE_FLAG_KEY, pageType.getValue());
         contentFragment.setArguments(bundle);
 
         return contentFragment;
@@ -96,6 +96,8 @@ public class ContentFragment extends Fragment {
             constructor = new LessonsConstructor(this);
         } else if ( pageType_ == PAGE_TYPE.TAGS ) {
             constructor = new TagsConstructor(this);
+        } else if ( pageType_ == PAGE_TYPE.SPEAKING ) {
+            constructor = new SpeakingConstructor(this);
         }
         constructor.constructPage();
 
@@ -141,7 +143,7 @@ public class ContentFragment extends Fragment {
         }
 
         public void constructPage() {
-            List<String> blocksStructure = lessonConfig_.getKeyValuePageConfig();
+            List<String> blocksStructure = lessonConfig_.getKeyValueLessonConfig();
 
             for (String subblock: blocksStructure) {
                 List<String> keyValueNode = new ArrayList(Arrays.asList(subblock.split("\\:")));
@@ -177,6 +179,61 @@ public class ContentFragment extends Fragment {
                         page_.setPictureExercise2(value, lesson_);
                         break;
                     }
+                    default:{
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public class SpeakingConstructor extends PageConstructor {
+        protected DBLessonConfig lessonConfig_;
+
+        public SpeakingConstructor(ContentFragment fragment) {
+            super(fragment);
+            material_     = new DBMaterial(getContext(), lesson_);
+            lessonConfig_ = new DBLessonConfig(getContext(), lesson_);
+        }
+
+        public void constructPage() {
+            List<String> blocksStructure = lessonConfig_.getKeyValueSpeakingConfig();
+            Log.e(TAG, "+++ = " + blocksStructure.toString());
+
+            for (String subblock: blocksStructure) {
+                List<String> keyValueNode = new ArrayList(Arrays.asList(subblock.split("\\:")));
+                String key    = keyValueNode.get(0);
+                int value = Integer.valueOf(keyValueNode.get(1));
+                switch (key){
+                    case "tags": {
+                        page_.setTags(material_);
+                        break;
+                    }
+                    case "vocabulary": {
+                        page_.setVocabulary(new DBVocabulary(getContext())
+                                .getVocabularyByLessonWithoutTranslate(lesson_));
+                        break;
+                    }
+                    case "info": {
+                        page_.setSpeakingInfo(lesson_);
+                        break;
+                    }
+//                    case "sEx" : {
+//                        page_.setSimpleExercise(value, lesson_);
+//                        break;
+//                    }
+//                    case "pEx" : {
+//                        page_.setColumnDividedImageView(value, lesson_);
+//                        break;
+//                    }
+//                    case "pEx1" : {
+//                        page_.setPictureExercise1(value, lesson_);
+//                        break;
+//                    }
+//                    case "pEx2" : {
+//                        page_.setPictureExercise2(value, lesson_);
+//                        break;
+//                    }
                     default:{
                         break;
                     }

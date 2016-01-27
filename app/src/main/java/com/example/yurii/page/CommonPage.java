@@ -104,12 +104,28 @@ public class CommonPage {
         setColumnDividedTextView(minColumnWidth, contentList);
     }
 
+    public void setSpeakingInfo(int lesson) {
+        DBExercise exercise = new DBExercise(parentFragment_.getContext(), lesson, 0);
+        String content  = exercise.getContent();
+//        TextView textView = new TextView(parentFragment_.getContext());
+//
+//        textView.setText(exercise.getSignature());
+//        textView.setTextSize(20);
+//        textView.setGravity(Gravity.CENTER);
+//        textView.setTypeface(null, Typeface.BOLD);
+//        mainTableLayout.addView(textView);
+
+        if ( !content.isEmpty() ) {
+            trimConfigValuesAndSetTextView(content);
+        }
+    }
+
     public void setSimpleExercise(int section, int lesson) {
         DBExercise exercise = new DBExercise(parentFragment_.getContext(), lesson, section);
-        String examples = exercise.getExamples();
+        String examples = exercise.getLessonExamples();
         String content  = exercise.getContent();
 
-        setSignature(exercise.getSignature(), "", false);
+        setSignature(exercise.getLessonSignature(), "", false);
         if ( !examples.isEmpty() ) {
             setInstruction("Example:");
             setColumnDividedTextView(displayWidth / 2, new ArrayList(Arrays.asList(examples.split("\\|"))));
@@ -122,10 +138,10 @@ public class CommonPage {
     public void setPictureExercise1(int section, int lesson) {
         DBExercise exercise = new DBExercise(parentFragment_.getContext(), lesson, section);
         LinearLayout llv = new LinearLayout(parentFragment_.getContext());
-        String examples = exercise.getExamples();
+        String examples = exercise.getLessonExamples();
         String content  = exercise.getContent();
 
-        setSignature(exercise.getSignature(), "", false);
+        setSignature(exercise.getLessonSignature(), "", false);
         if ( !content.isEmpty() ) {
             String text = new String();
             List<String> contentList = new ArrayList(Arrays.asList(content.split("\\|")));
@@ -152,11 +168,11 @@ public class CommonPage {
     public void setPictureExercise2(int section, int lesson) {
         DBExercise exercise = new DBExercise(parentFragment_.getContext(), lesson, section);
         LinearLayout llv    = new LinearLayout(parentFragment_.getContext());
-        String examples     = exercise.getExamples();
+        String examples     = exercise.getLessonExamples();
         String content      = exercise.getContent();
         String subContent   = exercise.getSubContent();
 
-        setSignature(exercise.getSignature(), "", false);
+        setSignature(exercise.getLessonSignature(), "", false);
         if ( !examples.isEmpty() ) {
             int resID = parentFragment_.getResources().getIdentifier(examples, "drawable",
                     parentFragment_.getContext().getPackageName());
@@ -319,13 +335,13 @@ public class CommonPage {
 
     public void setColumnDividedImageView(int section, int lesson) {
         DBExercise exercise = new DBExercise(parentFragment_.getContext(), lesson, section);
-        String examples     = exercise.getExamples();
+        String examples     = exercise.getLessonExamples();
         String content      = exercise.getContent();
 
         if ( !content.isEmpty() ) {
             List<String> signatures_pictures = new ArrayList(Arrays.asList(content.split("\\^")));
 
-            setSignature(exercise.getSignature(), "", false);
+            setSignature(exercise.getLessonSignature(), "", false);
             if ( !examples.isEmpty() ) {
                 setInstruction("Example:");
                 setColumnDividedTextView(displayWidth / 2, new ArrayList(Arrays.asList(examples.split("\\|"))));
