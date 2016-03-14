@@ -1,7 +1,12 @@
 package com.example.yurii.fragment;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -13,15 +18,17 @@ import android.view.ViewGroup;
 import com.example.yurii.adapter.TabPagerItem;
 import com.example.yurii.adapter.ViewPagerAdapter;
 import com.example.yurii.speakeasy.R;
+import com.example.yurii.speakeasy.StartUpActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewPagerFragment extends Fragment {
-    public static String TAG = "ViewPagerFragment";
-    private List<TabPagerItem> mTabs = new ArrayList<>();
-    private int lesson_;
+    public static String TAG                 = "ViewPagerFragment";
     private static String LESSON_FLAG_KEY    = "LessonFlagKey";
+    private List<TabPagerItem> mTabs = new ArrayList<>();
+    StartUpActivity mediator_;
+    private int     lesson_;
 
     public static ViewPagerFragment newInstance(int lesson) {
         ViewPagerFragment viewPagerFragment = new ViewPagerFragment();
@@ -31,6 +38,12 @@ public class ViewPagerFragment extends Fragment {
         viewPagerFragment.setArguments(bundle);
 
         return viewPagerFragment;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mediator_ = (StartUpActivity) activity;
     }
 
     @Override
@@ -57,7 +70,7 @@ public class ViewPagerFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        ViewPager mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        final ViewPager mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
 
         mViewPager.setOffscreenPageLimit(mTabs.size());
         mViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(), mTabs));
@@ -67,5 +80,22 @@ public class ViewPagerFragment extends Fragment {
             mSlidingTabLayout.setElevation(15);
         }
         mSlidingTabLayout.setupWithViewPager(mViewPager);
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                Log.e(TAG, "onPageSelected position = " + position);
+                mediator_.updateActionBarColor(position);
+//                if (position == 0) {
+//                    mSlidingTabLayout.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#669966")));
+//                } else if (position == 1) {
+//                    mSlidingTabLayout.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF0000")));
+//                }
+            }
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {}
+            @Override
+            public void onPageScrollStateChanged(int arg0) {}
+        });
     }
 }

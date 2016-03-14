@@ -1,6 +1,7 @@
 package com.example.yurii.adapter;
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 public class TabPagerItem {
 
@@ -17,6 +18,7 @@ public class TabPagerItem {
     }
 
     public CharSequence getTitle() {
+        Log.e("+++---", "getTitle title = " + mTitle);
         return mTitle;
     }
 }

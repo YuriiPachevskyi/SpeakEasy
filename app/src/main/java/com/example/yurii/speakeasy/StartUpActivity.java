@@ -1,5 +1,7 @@
 package com.example.yurii.speakeasy;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -209,6 +211,19 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         updateWindowState(true);
     }
 
+    @Override
+    public void updateActionBarColor(int position) {
+        if ( position == 0 ) {
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#669966")));
+            actionBarNode.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#669966")));
+//            getWindow().findViewById(R.id.viewPager).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#669966")));
+        } else if ( position == 1 ) {
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF0000")));
+            actionBarNode.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF0000")));
+//            getWindow().findViewById(R.id.viewPager).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF0000")));
+        }
+    }
+
     public void updateWindowState(boolean updateActionBar) {
         getWindow().findViewById(R.id.lessons_frame_layout)
                 .setVisibility(currentWindowState == PAGE_TYPE.LESSONS ? View.VISIBLE : View.GONE);
@@ -231,6 +246,10 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         } else if ( currentWindowState == PAGE_TYPE.LESSON ) {
             ((TextView) actionBarNode.findViewById(R.id.lesson_theme)).setText( String.valueOf(currentLesson)
                     + " " + new DBLessonConfig(getApplicationContext(), currentLesson).getSignature());
+        }
+
+        if (currentWindowState == PAGE_TYPE.LESSONS || currentWindowState == PAGE_TYPE.TAGS) {
+            updateActionBarColor(0);
         }
     }
 }
