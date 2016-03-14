@@ -35,9 +35,9 @@ public class DataBaseCopyist extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
     public void createDataBase() throws IOException {
-//        if ( checkDataBase() ){
-//            Log.i(TAG, "Database already exist");
-//        } else {
+        if ( checkDataBase() ){
+            Log.i(TAG, "Database already exist");
+        } else {
             Log.i(TAG, "Try to create database");
             this.getReadableDatabase();
             try {
@@ -45,7 +45,7 @@ public class DataBaseCopyist extends SQLiteOpenHelper {
             } catch (IOException e) {
                 throw new Error("Error copying database");
             }
-//        }
+        }
     }
 
     private boolean checkDataBase(){
