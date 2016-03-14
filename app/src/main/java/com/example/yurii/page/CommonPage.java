@@ -1,5 +1,7 @@
 package com.example.yurii.speakeasy;
 
+import android.support.v4.app.Fragment;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -23,9 +25,10 @@ import java.util.List;
 public class CommonPage {
     private static String TAG = "CommonPage";
     private ViewGroup.LayoutParams layoutParams;
-    private ContentFragment parentFragment_;
+    private Fragment parentFragment_;
     private ScrollView mainView_;
     private TableLayout    mainTableLayout;
+    private Context context;
 
     private int            displayWidth;
     private int            minColumnWidth;
@@ -33,10 +36,10 @@ public class CommonPage {
     private int            displayHeight;
 
 
-    public CommonPage(LayoutInflater inflater, ContentFragment fragment) {
+    public CommonPage(LayoutInflater inflater, Fragment fragment) {
         Point size      = new Point();
         parentFragment_ = fragment;
-        mainTableLayout = (TableLayout) new TableLayout(parentFragment_.getContext());
+        mainTableLayout = (TableLayout) new TableLayout(fragment.getContext());
         layoutParams    = new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
         mainView_       = (ScrollView) inflater.inflate(R.layout.common_scroll_view, null);
         parentFragment_.getActivity().getWindowManager().getDefaultDisplay().getSize(size);
@@ -58,7 +61,7 @@ public class CommonPage {
         return textView;
     }
 
-    public void setTags(DBMaterial materialDB) {
+    public void setTags(DBMaterial materialDB, final StartUpActivity mediator) {
         List<String> tags = materialDB.getTagsList();
 
         for ( int i = 0, symbolsCounter = 0; i < tags.size(); ) {
@@ -79,7 +82,7 @@ public class CommonPage {
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View viewIn) {
-                            parentFragment_.mediator_.showMaterial(((TextView)viewIn).getText().toString());
+                            mediator.showMaterial(((TextView)viewIn).getText().toString());
                         }
                     });
                 } else {
@@ -202,7 +205,7 @@ public class CommonPage {
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View viewIn) {
-                        parentFragment_.mediator_.showMaterial(str);
+//                        parentFragment_.mediator_.showMaterial(str);
                     }
                 });
             }
@@ -241,7 +244,7 @@ public class CommonPage {
         }
     }
 
-    public void setOnclickLessons(List<String> lessonsList) {
+    public void setOnclickLessons(List<String> lessonsList, final StartUpActivity mediator) {
         for ( int i = 0; i < lessonsList.size(); i++ ) {
             TextView textView = getSimpleTextView(lessonsList.get(i));
             textView.setTextSize(20);
@@ -260,14 +263,14 @@ public class CommonPage {
                         }
                         lessonNumber += lessonSignature.charAt(i);
                     }
-                    parentFragment_.mediator_.showLesson(Integer.parseInt(lessonNumber));
+                    mediator.showLesson(Integer.parseInt(lessonNumber));
                 }
             });
             mainTableLayout.addView(textView);
         }
     }
 
-    public void setOnclickTags(List<String> tagsList) {
+    public void setOnclickTags(List<String> tagsList, final StartUpActivity mediator) {
 
         for ( int i = 0; i < tagsList.size(); i++ ) {
             TextView textView = getSimpleTextView(tagsList.get(i));
@@ -278,7 +281,7 @@ public class CommonPage {
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View viewIn) {
-                    parentFragment_.mediator_.showMaterial(((TextView) viewIn).getText().toString());
+                    mediator.showMaterial(((TextView) viewIn).getText().toString());
                 }
             });
 

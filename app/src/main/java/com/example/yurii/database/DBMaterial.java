@@ -23,10 +23,6 @@ public class DBMaterial {
         lesson_    = lesson;
     }
 
-//    public boolean isTagExist(String tag) {
-//        return tagDB_.isTagExist(tag);
-//    }
-
     public int getTagId(String tag) {
         return  tagDB_.getTagId(tag);
     }

@@ -11,7 +11,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.yurii.database.DBLessonConfig;
+import com.example.yurii.database.DataBaseCopyist;
+import com.example.yurii.fragment.LessonsFragment;
+import com.example.yurii.fragment.MaterialFragment;
+import com.example.yurii.fragment.TagsFragment;
 import com.example.yurii.fragment.ViewPagerFragment;
+
+import java.io.IOException;
 
 import br.liveo.model.HelpLiveo;
 import br.liveo.interfaces.OnItemClickListener;
@@ -23,26 +29,25 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
     private static String LESSONS_FRAGMENT  = "LessonsFragment";
     private static String LESSON_FRAGMENT   = "LessonFragment";
     private static String TAGS_FRAGMENT     = "TagsFragment";
-    private static String TAG_FRAGMENT      = "TagFragment";
+    private static String MATERIAL_FRAGMENT = "MaterialFragment";
 
     private static String LESSON_FLAG_KEY   = "LessonFlagKey";
     private static String CURRENT_FLAG_KEY  = "CurrentFlagKey";
     private static String PREV_FLAG_KEY     = "PrevFlagKey";
 
-    private ContentFragment   lessonsFragment;
+    private LessonsFragment   lessonsFragment;
     private ViewPagerFragment lessonFragment;
-    private ContentFragment   tagsFragment;
-    private ContentFragment   tagFragment;
+    private TagsFragment      tagsFragment;
+    private MaterialFragment  materialFragment;
 
-    private View actionBarNode;
-
+    private View      actionBarNode;
     private HelpLiveo mHelpLiveo;
     private PAGE_TYPE currentWindowState;
     private PAGE_TYPE prevWindowState;
-    private int currentLesson;
+    private int       currentLesson;
 
     public StartUpActivity() {
-        currentLesson   = 0;
+        currentLesson      = 0;
         currentWindowState = PAGE_TYPE.LESSONS;
         prevWindowState    = PAGE_TYPE.LESSONS;
     }
@@ -51,20 +56,26 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        lessonsFragment = (ContentFragment)getSupportFragmentManager()
+        try {
+            DataBaseCopyist copyist = new DataBaseCopyist(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        lessonsFragment  = (LessonsFragment)getSupportFragmentManager()
                 .findFragmentByTag(LESSONS_FRAGMENT);
-        lessonFragment = (ViewPagerFragment)getSupportFragmentManager()
+        lessonFragment   = (ViewPagerFragment)getSupportFragmentManager()
                 .findFragmentByTag(LESSON_FRAGMENT);
-        tagsFragment    = (ContentFragment) getSupportFragmentManager()
+        tagsFragment     = (TagsFragment) getSupportFragmentManager()
                 .findFragmentByTag(TAGS_FRAGMENT);
-        tagFragment    = (ContentFragment) getSupportFragmentManager()
-                .findFragmentByTag(TAG_FRAGMENT);
+        materialFragment = (MaterialFragment) getSupportFragmentManager()
+                .findFragmentByTag(MATERIAL_FRAGMENT);
 
         actionBarNode = getLayoutInflater().inflate(R.layout.custom_actionbar, null);
 
         if ( savedInstanceState == null ) {
-            lessonsFragment = ContentFragment.newInstance(PAGE_TYPE.LESSONS);
-            tagsFragment    = ContentFragment.newInstance(PAGE_TYPE.TAGS);
+            lessonsFragment = LessonsFragment.newInstance();
+            tagsFragment    = TagsFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.lessons_frame_layout, lessonsFragment, LESSONS_FRAGMENT)
                     .replace(R.id.tags_frame_layout, tagsFragment, TAGS_FRAGMENT)
@@ -177,9 +188,9 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         Log.i(TAG, "showMaterial");
         prevWindowState    = currentWindowState;
         currentWindowState = PAGE_TYPE.TAG;
-        tagFragment        = ContentFragment.newInstance(tag);
+        materialFragment        = MaterialFragment.newInstance(tag);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.tag_frame_layout, tagFragment, TAG_FRAGMENT)
+                .replace(R.id.material_frame_layout, materialFragment, MATERIAL_FRAGMENT)
                 .commit();
         updateWindowState(false);
     }
@@ -205,7 +216,7 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
                 .setVisibility(currentWindowState == PAGE_TYPE.LESSON ? View.VISIBLE : View.GONE);
         getWindow().findViewById(R.id.tags_frame_layout)
                 .setVisibility(currentWindowState == PAGE_TYPE.TAGS ? View.VISIBLE : View.GONE);
-        getWindow().findViewById(R.id.tag_frame_layout)
+        getWindow().findViewById(R.id.material_frame_layout)
                 .setVisibility(currentWindowState == PAGE_TYPE.TAG ? View.VISIBLE : View.GONE);
         if ( updateActionBar == true ) {
             updateActionBar();
