@@ -1,6 +1,8 @@
 package com.example.yurii.speakeasy;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -209,6 +211,15 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         updateWindowState(true);
     }
 
+    @Override
+    public void updateActionBarColor(int position) {
+        if ( position == 0 ) {
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundGreenColor)));
+        } else if ( position == 1 ) {
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundBlueColor)));
+        }
+    }
+
     public void updateWindowState(boolean updateActionBar) {
         getWindow().findViewById(R.id.lessons_frame_layout)
                 .setVisibility(currentWindowState == PAGE_TYPE.LESSONS ? View.VISIBLE : View.GONE);
@@ -228,6 +239,7 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
 
         getSupportActionBar().show();
         if ( currentWindowState == PAGE_TYPE.LESSONS ) {
+            updateActionBarColor(0);
             ((TextView) actionBarNode.findViewById(R.id.lesson_theme)).setText("Lessons");
         } else if ( currentWindowState == PAGE_TYPE.TAGS ) {
             ((TextView) actionBarNode.findViewById(R.id.lesson_theme)).setText("Tags");

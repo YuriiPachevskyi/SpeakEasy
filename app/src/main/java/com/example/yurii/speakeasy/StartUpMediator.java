@@ -29,4 +29,5 @@ public interface StartUpMediator {
 
     public void showMaterial(String tag);
     public void showLesson(int lesson);
+    public void updateActionBarColor(int position);
 }

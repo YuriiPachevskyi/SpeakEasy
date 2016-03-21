@@ -74,11 +74,27 @@ public class ViewPagerFragment extends Fragment {
 
         mViewPager.setOffscreenPageLimit(mTabs.size());
         mViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(), mTabs));
-        TabLayout mSlidingTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
+        final TabLayout mSlidingTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mSlidingTabLayout.setElevation(15);
         }
         mSlidingTabLayout.setupWithViewPager(mViewPager);
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                mediator_.updateActionBarColor(position);
+                if (position == 0) {
+                    mSlidingTabLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundGreenColor)));
+                } else if (position == 1) {
+                    mSlidingTabLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundBlueColor)));
+                }
+            }
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {}
+            @Override
+            public void onPageScrollStateChanged(int arg0) {}
+        });
     }
 }

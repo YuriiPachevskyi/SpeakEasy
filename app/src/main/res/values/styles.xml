@@ -13,6 +13,7 @@
 
     <color name="backgroundGreenColor" >#669966</color>
     <color name="backgroundYellowColor" >#ffcc66</color>
+    <color name="backgroundBlueColor" >#6495ED</color>
     <color name="backgroundGreyColor" >#20658bce</color>
 
 </resources>
