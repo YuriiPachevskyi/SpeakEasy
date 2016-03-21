@@ -1,5 +1,6 @@
 package com.example.yurii.speakeasy;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -79,6 +80,7 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
                     .replace(R.id.tags_frame_layout, tagsFragment, TAGS_FRAGMENT)
                     .commit();
         }
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(actionBarNode, new ActionBar.LayoutParams(
@@ -222,6 +224,9 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
     }
 
     public void updateActionBar() {
+        int orientation = getResources().getConfiguration().orientation;
+
+        getSupportActionBar().show();
         if ( currentWindowState == PAGE_TYPE.LESSONS ) {
             ((TextView) actionBarNode.findViewById(R.id.lesson_theme)).setText("Lessons");
         } else if ( currentWindowState == PAGE_TYPE.TAGS ) {
@@ -229,6 +234,9 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         } else if ( currentWindowState == PAGE_TYPE.LESSON ) {
             ((TextView) actionBarNode.findViewById(R.id.lesson_theme)).setText( String.valueOf(currentLesson)
                     + " " + new DBLessonConfig(getApplicationContext(), currentLesson).getSignature());
+            if ( orientation == Configuration.ORIENTATION_LANDSCAPE ) {
+                getSupportActionBar().hide();
+            }
         }
     }
 }
