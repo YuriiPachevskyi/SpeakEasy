@@ -1,10 +1,12 @@
 package com.example.yurii.speakeasy;
 
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,44 +109,40 @@ public class CommonPage {
         setColumnDividedTextView(minColumnWidth, contentList);
     }
 
-    public void setSpeakingInfo(int lesson) {
-        DBExercise exercise = new DBExercise(parentFragment_.getContext(), lesson, 0);
-        String content  = exercise.getContent();
-//        TextView textView = new TextView(parentFragment_.getContext());
-//
-//        textView.setText(exercise.getSignature());
-//        textView.setTextSize(20);
-//        textView.setGravity(Gravity.CENTER);
-//        textView.setTypeface(null, Typeface.BOLD);
-//        mainTableLayout.addView(textView);
+    public void setSpeakingInfo(DBExercise exercise, int section) {
+        String content  = exercise.getContent(section);
+        TextView textView = new TextView(parentFragment_.getContext());
 
-        if ( !content.isEmpty() ) {
-            trimConfigValuesAndSetTextView(content);
-        }
+        textView.setText(exercise.getSignature(section));
+        textView.setTextSize(20);
+        textView.setGravity(Gravity.CENTER);
+        textView.setBackgroundColor(parentFragment_.getResources().getColor(R.color.backgroundBlueColor));
+        textView.setTypeface(null, Typeface.BOLD);
+        mainTableLayout.addView(textView);
     }
 
-    public void setSimpleExercise(int section, int lesson) {
-        DBExercise exercise = new DBExercise(parentFragment_.getContext(), lesson, section);
-        String examples = exercise.getLessonExamples();
-        String content  = exercise.getContent();
+    public void setSimpleExercise(DBExercise exercise, int section) {
+        String examples = exercise.getExamples(section);
+        String content  = exercise.getContent(section);
 
-        setSignature(exercise.getLessonSignature(), "", false);
+        setSignature(exercise.getSignature(section), "", false);
         if ( !examples.isEmpty() ) {
             setInstruction("Example:");
-            setColumnDividedTextView(displayWidth / 2, new ArrayList(Arrays.asList(examples.split("\\|"))));
+            trimConfigValuesAndSetTextView(examples);
         }
         if ( !content.isEmpty() ) {
             trimConfigValuesAndSetTextView(content);
         }
     }
 
-    public void setPictureExercise1(int section, int lesson) {
-        DBExercise exercise = new DBExercise(parentFragment_.getContext(), lesson, section);
+    public void setPictureExercise1(DBExercise exercise, int section) {
         LinearLayout llv = new LinearLayout(parentFragment_.getContext());
-        String examples = exercise.getLessonExamples();
-        String content  = exercise.getContent();
+        String examples = exercise.getExamples(section);
+        String content  = exercise.getContent(section);
 
-        setSignature(exercise.getLessonSignature(), "", false);
+        if ( section != 0 ) {
+            setSignature(exercise.getSignature(section), "", false);
+        }
         if ( !content.isEmpty() ) {
             String text = new String();
             List<String> contentList = new ArrayList(Arrays.asList(content.split("\\|")));
@@ -168,14 +166,13 @@ public class CommonPage {
         mainTableLayout.addView(llv);
     }
 
-    public void setPictureExercise2(int section, int lesson) {
-        DBExercise exercise = new DBExercise(parentFragment_.getContext(), lesson, section);
-        LinearLayout llv    = new LinearLayout(parentFragment_.getContext());
-        String examples     = exercise.getLessonExamples();
-        String content      = exercise.getContent();
-        String subContent   = exercise.getSubContent();
+    public void setPictureExercise2(DBExercise exercise, int section) {
+        LinearLayout llv  = new LinearLayout(parentFragment_.getContext());
+        String examples   = exercise.getExamples(section);
+        String content    = exercise.getContent(section);
+        String subContent = exercise.getSubContent(section);
 
-        setSignature(exercise.getLessonSignature(), "", false);
+        setSignature(exercise.getSignature(section), "", false);
         if ( !examples.isEmpty() ) {
             int resID = parentFragment_.getResources().getIdentifier(examples, "drawable",
                     parentFragment_.getContext().getPackageName());
@@ -336,18 +333,17 @@ public class CommonPage {
         mainTableLayout.addView(llv);
     }
 
-    public void setColumnDividedImageView(int section, int lesson) {
-        DBExercise exercise = new DBExercise(parentFragment_.getContext(), lesson, section);
-        String examples     = exercise.getLessonExamples();
-        String content      = exercise.getContent();
+    public void setColumnDividedImageView(DBExercise exercise, int section) {
+        String examples     = exercise.getExamples(section);
+        String content      = exercise.getContent(section);
 
         if ( !content.isEmpty() ) {
             List<String> signatures_pictures = new ArrayList(Arrays.asList(content.split("\\^")));
 
-            setSignature(exercise.getLessonSignature(), "", false);
+            setSignature(exercise.getSignature(section), "", false);
             if ( !examples.isEmpty() ) {
                 setInstruction("Example:");
-                setColumnDividedTextView(displayWidth / 2, new ArrayList(Arrays.asList(examples.split("\\|"))));
+                trimConfigValuesAndSetTextView(examples);
             }
             if ( signatures_pictures.size() > 1 ) {
                 List<String> picturesList = new ArrayList(Arrays.asList(signatures_pictures.get(1).split("\\|")));

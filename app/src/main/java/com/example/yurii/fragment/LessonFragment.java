@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.yurii.database.DBExercise;
+import com.example.yurii.database.DBLesson;
 import com.example.yurii.database.DBLessonConfig;
 import com.example.yurii.database.DBMaterial;
 import com.example.yurii.database.DBVocabulary;
@@ -52,14 +54,15 @@ public class LessonFragment extends Fragment {
                              Bundle savedInstanceState) {
         CommonPage     page            = new CommonPage(inflater, this);
         DBMaterial     material        = new DBMaterial(getContext(), lesson_);
+        DBExercise     exerciseDB      = new DBLesson(getContext(), lesson_);
         DBLessonConfig lessonConfig    = new DBLessonConfig(getContext(), lesson_);
         List<String>   blocksStructure = lessonConfig.getKeyValueLessonConfig();
 
         for (String subblock: blocksStructure) {
             List<String> keyValueNode  = new ArrayList(Arrays.asList(subblock.split("\\:")));
-            String key                 = keyValueNode.get(0);
-            int value                  = Integer.valueOf(keyValueNode.get(1));
-            switch (key){
+            int section                = Integer.valueOf(keyValueNode.get(1));
+
+            switch ( keyValueNode.get(0) ){
                 case "tags": {
                     page.setTags(material, mediator_);
                     break;
@@ -69,24 +72,24 @@ public class LessonFragment extends Fragment {
                     break;
                 }
                 case "tag": {
-                    String tag = material.getTagsList().get(value-1);
+                    String tag = material.getTagsList().get(section-1);
                     page.setMaterial(tag, material);
                     break;
                 }
                 case "sEx" : {
-                    page.setSimpleExercise(value, lesson_);
+                    page.setSimpleExercise(exerciseDB, section);
                     break;
                 }
                 case "pEx" : {
-                    page.setColumnDividedImageView(value, lesson_);
+                    page.setColumnDividedImageView(exerciseDB, section);
                     break;
                 }
                 case "pEx1" : {
-                    page.setPictureExercise1(value, lesson_);
+                    page.setPictureExercise1(exerciseDB, section);
                     break;
                 }
                 case "pEx2" : {
-                    page.setPictureExercise2(value, lesson_);
+                    page.setPictureExercise2(exerciseDB, section);
                     break;
                 }
                 default:{
