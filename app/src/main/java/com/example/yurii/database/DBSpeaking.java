@@ -87,7 +87,7 @@ public class DBSpeaking extends DBExercise {
     public String getSubContent(int section) {
         String result     = new String();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query      = "select SpeakingSubContent from exercise_full where Lesson = "
+        String query      = "select SpeakingSubContent from exercise_full where SpeakingSubContent is not null and Lesson = "
                 + lesson_ + " and LessonSection = " + section;
         Cursor res        =  db.rawQuery(query, null);
 

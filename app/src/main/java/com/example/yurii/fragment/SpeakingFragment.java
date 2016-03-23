@@ -76,8 +76,12 @@ public class SpeakingFragment extends Fragment {
                     page.setPictureExercise1(exerciseDB, section);
                     break;
                 }
+                case "sub_info": {
+                    page.setSpeakingInfo(exerciseDB, section);
+                    page.setPictureExercise2(exerciseDB, section);
+                    break;
+                }
                 case "sEx" : {
-                    Log.e(TAG, " section = " + section);
                     page.setSimpleExercise(exerciseDB, section);
                     break;
                 }

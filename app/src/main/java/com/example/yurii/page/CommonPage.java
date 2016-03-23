@@ -172,7 +172,9 @@ public class CommonPage {
         String content    = exercise.getContent(section);
         String subContent = exercise.getSubContent(section);
 
-        setSignature(exercise.getSignature(section), "", false);
+        if ( section != 0 ) {
+            setSignature(exercise.getSignature(section), "", false);
+        }
         if ( !examples.isEmpty() ) {
             int resID = parentFragment_.getResources().getIdentifier(examples, "drawable",
                     parentFragment_.getContext().getPackageName());

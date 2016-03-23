@@ -18,7 +18,6 @@ public class TabPagerItem {
     }
 
     public CharSequence getTitle() {
-        Log.e("+++---", "getTitle title = " + mTitle);
         return mTitle;
     }
 }

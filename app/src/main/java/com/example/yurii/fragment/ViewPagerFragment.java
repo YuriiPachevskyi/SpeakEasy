@@ -50,12 +50,10 @@ public class ViewPagerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lesson_ = getArguments().getInt(LESSON_FLAG_KEY);
-        Log.e(TAG, "onCreate lesson = " + lesson_);
         createTabPagerItem();
     }
 
     private void createTabPagerItem() {
-        Log.e(TAG, "createTabPagerItem");
         mTabs.add(new TabPagerItem(getString(R.string.lesson), LessonFragment.newInstance(lesson_)));
         mTabs.add(new TabPagerItem(getString(R.string.speaking), SpeakingFragment.newInstance(lesson_)));
     }
