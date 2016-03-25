@@ -77,7 +77,7 @@ public class CommonPage {
                 if ( symbolsCounter > 70) {
                     break;
                 }
-                textView.setPadding(3, 9, 9, 3);
+                textView.setPadding(1, 9, 9, 1);
                 textView.setGravity(Gravity.CENTER);
 
                 if ( !materialDB.getContentList(currentTag).isEmpty() ) {
