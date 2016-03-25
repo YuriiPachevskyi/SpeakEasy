@@ -298,7 +298,7 @@ public class CommonPage {
                     content.length()));
             content = content.substring(1, content.length()-1);
         } catch (NumberFormatException exception) {
-//            Log.e(TAG, "NumberFormatException, error number is not valid content = " + content);
+            Log.e(TAG, "NumberFormatException, error number is not valid content = " + content);
         }
 
         List<String> list = new ArrayList(Arrays.asList(content.split("\\|")));
