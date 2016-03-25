@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -199,7 +200,9 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
 
     @Override
     public void showLesson(int lesson) {
-        if ( currentLesson != lesson ) {
+        if ( currentLesson == lesson && lessonFragment != null ) {
+            updateActionBarColor(lessonFragment.getSlidingTabLayout().getSelectedTabPosition());
+        } else if ( currentLesson != lesson ) {
             lessonFragment = ViewPagerFragment.newInstance(lesson);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.lesson_frame_layout, lessonFragment, LESSON_FRAGMENT)
@@ -213,10 +216,19 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
 
     @Override
     public void updateActionBarColor(int position) {
-        if ( position == 0 ) {
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundGreenColor)));
-        } else if ( position == 1 ) {
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundBlueColor)));
+        if ( lessonFragment != null ) {
+            TabLayout tabLayout = lessonFragment.getSlidingTabLayout();
+            ActionBar actionBar = getSupportActionBar();
+            ColorDrawable green = new ColorDrawable(getResources().getColor(R.color.backgroundGreenColor));
+            ColorDrawable blue  = new ColorDrawable(getResources().getColor(R.color.backgroundBlueColor));
+
+            if ( position == 0 ) {
+                actionBar.setBackgroundDrawable(green);
+                tabLayout.setBackgroundDrawable(green);
+            } else if ( position == 1 ) {
+                actionBar.setBackgroundDrawable(blue);
+                tabLayout.setBackgroundDrawable(blue);
+            }
         }
     }
 
