@@ -257,6 +257,8 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
             ((TextView) actionBarNode.findViewById(R.id.lesson_theme)).setText("Lessons");
         } else if ( currentWindowState == PAGE_TYPE.TAGS ) {
             ((TextView) actionBarNode.findViewById(R.id.lesson_theme)).setText("Tags");
+        } else if ( currentWindowState == PAGE_TYPE.TAG ) {
+            ((TextView) actionBarNode.findViewById(R.id.lesson_theme)).setText("Tag");
         } else if ( currentWindowState == PAGE_TYPE.LESSON ) {
             ((TextView) actionBarNode.findViewById(R.id.lesson_theme)).setText( String.valueOf(currentLesson)
                     + " " + new DBLessonConfig(getApplicationContext(), currentLesson).getSignature());
