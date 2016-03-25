@@ -293,10 +293,11 @@ public class CommonPage {
         int maxColumnQuantity = 1;
 
         try {
+            int last = content.length() - 1;
+
             minColumnQuantity = Integer.valueOf(content.substring(0, 1));
-            maxColumnQuantity = Integer.valueOf(content.substring(content.length() - 1,
-                    content.length()));
-            content = content.substring(1, content.length()-1);
+            maxColumnQuantity = Integer.valueOf(content.substring(last, content.length()));
+            content = content.substring(1, last);
         } catch (NumberFormatException exception) {
             Log.e(TAG, "NumberFormatException, error number is not valid content = " + content);
         }
