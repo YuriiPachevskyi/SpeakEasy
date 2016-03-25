@@ -222,12 +222,14 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
             ColorDrawable green = new ColorDrawable(getResources().getColor(R.color.backgroundGreenColor));
             ColorDrawable blue  = new ColorDrawable(getResources().getColor(R.color.backgroundBlueColor));
 
-            if ( position == 0 ) {
-                actionBar.setBackgroundDrawable(green);
-                tabLayout.setBackgroundDrawable(green);
-            } else if ( position == 1 ) {
-                actionBar.setBackgroundDrawable(blue);
-                tabLayout.setBackgroundDrawable(blue);
+            if ( tabLayout != null ) {
+                if ( position == 0 ) {
+                    actionBar.setBackgroundDrawable(green);
+                    tabLayout.setBackgroundDrawable(green);
+                } else if ( position == 1 ) {
+                    actionBar.setBackgroundDrawable(blue);
+                    tabLayout.setBackgroundDrawable(blue);
+                }
             }
         }
     }
@@ -262,5 +264,9 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
                 getSupportActionBar().hide();
             }
         }
+    }
+
+    public ViewPagerFragment getLessonFragment() {
+        return lessonFragment;
     }
 }

@@ -73,7 +73,7 @@ public class LessonFragment extends Fragment {
                 }
                 case "tag": {
                     String tag = material.getTagsList().get(section-1);
-                    page.setMaterial(tag, material);
+                    page.setMaterial(tag, material, 0);
                     break;
                 }
                 case "sEx" : {

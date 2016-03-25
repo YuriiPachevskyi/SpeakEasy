@@ -125,7 +125,7 @@ public class CommonPage {
         String examples = exercise.getExamples(section);
         String content  = exercise.getContent(section);
 
-        setSignature(exercise.getSignature(section), "", false);
+        setSignature(exercise.getSignature(section), -1);
         if ( !examples.isEmpty() ) {
             setInstruction("Example:");
             trimConfigValuesAndSetTextView(examples);
@@ -141,7 +141,7 @@ public class CommonPage {
         String content  = exercise.getContent(section);
 
         if ( section != 0 ) {
-            setSignature(exercise.getSignature(section), "", false);
+            setSignature(exercise.getSignature(section), -1);
         }
         if ( !content.isEmpty() ) {
             String text = new String();
@@ -173,7 +173,7 @@ public class CommonPage {
         String subContent = exercise.getSubContent(section);
 
         if ( section != 0 ) {
-            setSignature(exercise.getSignature(section), "", false);
+            setSignature(exercise.getSignature(section), -1);
         }
         if ( !examples.isEmpty() ) {
             int resID = parentFragment_.getResources().getIdentifier(examples, "drawable",
@@ -194,21 +194,16 @@ public class CommonPage {
         }
     }
 
-    public void setSignature(final String str, String color, boolean setListener) {
+    public void setSignature(final String str, int position) {
         TextView textView = getSimpleTextView(str);
 
-        if ( color == "GREEN" ) {
+        if ( position == 0 ) {
             textView.setBackgroundColor(parentFragment_.getResources()
                     .getColor(R.color.backgroundGreenColor));
-            if ( setListener == true ) {
-                textView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View viewIn) {
-//                        parentFragment_.mediator_.showMaterial(str);
-                    }
-                });
-            }
-        } else if ( color == "YELLOW" ) {
+        } else  if ( position == 1 ) {
+            textView.setBackgroundColor(parentFragment_.getResources()
+                    .getColor(R.color.backgroundBlueColor));
+        } else  if ( position == 2 ) {
             textView.setBackgroundColor(parentFragment_.getResources()
                     .getColor(R.color.backgroundYellowColor));
         }
@@ -224,10 +219,10 @@ public class CommonPage {
         mainTableLayout.addView(textView);
     }
 
-    public void setMaterial(String tag, DBMaterial materialDB) {
+    public void setMaterial(String tag, DBMaterial materialDB, int position) {
         List<String> contentList = materialDB.getContentList(tag);
 
-        setSignature(tag, "GREEN", !materialDB.getContentList(tag).isEmpty());
+        setSignature(tag, position);
         for ( String subContent: contentList ) {
             if ( !subContent.isEmpty() ) {
                 trimConfigValuesAndSetTextView(subContent);
@@ -343,7 +338,7 @@ public class CommonPage {
         if ( !content.isEmpty() ) {
             List<String> signatures_pictures = new ArrayList(Arrays.asList(content.split("\\^")));
 
-            setSignature(exercise.getSignature(section), "", false);
+            setSignature(exercise.getSignature(section), -1);
             if ( !examples.isEmpty() ) {
                 setInstruction("Example:");
                 trimConfigValuesAndSetTextView(examples);

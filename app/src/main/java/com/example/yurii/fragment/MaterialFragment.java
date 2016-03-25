@@ -1,5 +1,6 @@
 package com.example.yurii.fragment;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,11 +9,19 @@ import android.view.ViewGroup;
 
 import com.example.yurii.database.DBMaterial;
 import com.example.yurii.speakeasy.CommonPage;
+import com.example.yurii.speakeasy.StartUpActivity;
 
 public class MaterialFragment extends Fragment {
     private static String TAG               = "MaterialFragment";
     private static String MATERIAL_FLAG_KEY = "TagFlagKey";
     private String        currentTag_;
+    private StartUpActivity mediator_;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mediator_ = (StartUpActivity) activity;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +45,13 @@ public class MaterialFragment extends Fragment {
         CommonPage page     = new CommonPage(inflater, this);
         DBMaterial material = new DBMaterial(getContext(), 0);
 
-        page.setMaterial(currentTag_, material);
+        int position = 0;
+
+        if ( mediator_.getLessonFragment() != null ) {
+            position = mediator_.getLessonFragment().getSlidingTabLayout().getSelectedTabPosition();
+        }
+
+        page.setMaterial(currentTag_, material, position);
 
         return  page.getMainView();
     }
