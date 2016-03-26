@@ -202,10 +202,10 @@ public class CommonPage {
                     .getColor(R.color.backgroundGreenColor));
         } else  if ( position == 1 ) {
             textView.setBackgroundColor(parentFragment_.getResources()
-                    .getColor(R.color.backgroundBlueColor));
+                    .getColor(R.color.backgroundYellowColor));
         } else  if ( position == 2 ) {
             textView.setBackgroundColor(parentFragment_.getResources()
-                    .getColor(R.color.backgroundYellowColor));
+                    .getColor(R.color.backgroundBlueColor));
         }
         textView.setPadding(6, 0, 6, 0);
         textView.setTypeface(null, Typeface.BOLD);

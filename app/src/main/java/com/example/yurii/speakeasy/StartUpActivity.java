@@ -219,16 +219,17 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         if ( lessonFragment != null ) {
             TabLayout tabLayout = lessonFragment.getSlidingTabLayout();
             ActionBar actionBar = getSupportActionBar();
-            ColorDrawable green = new ColorDrawable(getResources().getColor(R.color.backgroundGreenColor));
-            ColorDrawable blue  = new ColorDrawable(getResources().getColor(R.color.backgroundBlueColor));
 
             if ( tabLayout != null ) {
                 if ( position == 0 ) {
-                    actionBar.setBackgroundDrawable(green);
-                    tabLayout.setBackgroundDrawable(green);
+                    actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundGreenColor)));
+                    tabLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundGreenColor)));
                 } else if ( position == 1 ) {
-                    actionBar.setBackgroundDrawable(blue);
-                    tabLayout.setBackgroundDrawable(blue);
+                    actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundYellowColor)));
+                    tabLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundYellowColor)));
+                } else if ( position == 2 ) {
+                    actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundBlueColor)));
+                    tabLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundBlueColor)));
                 }
             }
         }
