@@ -57,6 +57,7 @@ public class ViewPagerFragment extends Fragment {
     private void createTabPagerItem() {
         mTabs.add(new TabPagerItem(getString(R.string.lesson), LessonFragment.newInstance(lesson_)));
         mTabs.add(new TabPagerItem(getString(R.string.speaking), SpeakingFragment.newInstance(lesson_)));
+        mTabs.add(new TabPagerItem(getString(R.string.homework), HomeworkFragment.newInstance(lesson_)));
     }
 
     @Override
@@ -90,15 +91,6 @@ public class ViewPagerFragment extends Fragment {
             public void onPageScrollStateChanged(int arg0) {}
         });
     }
-
-//    public void updateColor(int position) {
-//        if (position == 0) {
-//            mSlidingTabLayout_.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundGreenColor)));
-//        } else if (position == 1) {
-//            mSlidingTabLayout_.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundBlueColor)));
-//        }
-//        mSlidingTabLayout_.getPo
-//    }
 
     public TabLayout getSlidingTabLayout() {
         return slidingTabLayout_;

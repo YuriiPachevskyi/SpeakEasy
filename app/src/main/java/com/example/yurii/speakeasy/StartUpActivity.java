@@ -216,6 +216,8 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
 
     @Override
     public void updateActionBarColor(int position) {
+
+        Log.e(TAG, "position = " + position);
         if ( lessonFragment != null ) {
             TabLayout tabLayout = lessonFragment.getSlidingTabLayout();
             ActionBar actionBar = getSupportActionBar();
@@ -225,11 +227,11 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
                     actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundGreenColor)));
                     tabLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundGreenColor)));
                 } else if ( position == 1 ) {
-                    actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundYellowColor)));
-                    tabLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundYellowColor)));
-                } else if ( position == 2 ) {
                     actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundBlueColor)));
                     tabLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundBlueColor)));
+                } else if ( position == 2 ) {
+                    actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundYellowColor)));
+                    tabLayout.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.backgroundYellowColor)));
                 }
             }
         }
