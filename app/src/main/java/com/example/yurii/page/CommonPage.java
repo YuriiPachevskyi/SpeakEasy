@@ -26,13 +26,13 @@ import java.util.List;
 
 public class CommonPage {
     private static String TAG = "CommonPage";
-    private ViewGroup.LayoutParams layoutParams;
-    private Fragment parentFragment_;
+    protected ViewGroup.LayoutParams layoutParams;
+    protected Fragment parentFragment_;
+    protected TableLayout mainTableLayout;
     private ScrollView mainView_;
-    private TableLayout    mainTableLayout;
     private Context context;
 
-    private int            displayWidth;
+    protected int          displayWidth;
     private int            minColumnWidth;
     private int            maxColumnWidth;
     private int            displayHeight;
@@ -202,10 +202,10 @@ public class CommonPage {
                     .getColor(R.color.backgroundGreenColor));
         } else  if ( position == 1 ) {
             textView.setBackgroundColor(parentFragment_.getResources()
-                    .getColor(R.color.backgroundYellowColor));
+                    .getColor(R.color.backgroundBlueColor));
         } else  if ( position == 2 ) {
             textView.setBackgroundColor(parentFragment_.getResources()
-                    .getColor(R.color.backgroundBlueColor));
+                    .getColor(R.color.backgroundYellowColor));
         }
         textView.setPadding(6, 0, 6, 0);
         textView.setTypeface(null, Typeface.BOLD);

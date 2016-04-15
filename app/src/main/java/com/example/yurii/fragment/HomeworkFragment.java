@@ -3,6 +3,7 @@ package com.example.yurii.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,12 +50,15 @@ public class HomeworkFragment extends Fragment {
         lesson_ = getArguments().getInt(LESSON_FLAG_KEY);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        LessonPage page              = new LessonPage(inflater, this);
-        DBHomework homeworkDB        = new DBHomework(getContext(), lesson_);
+        LessonPage page       = new LessonPage(inflater, this, lesson_);
+        DBHomework homeworkDB = new DBHomework(getContext(), lesson_);
+
+        page.setExercise(1);
+        page.setExercise(3);
+        page.setExercise(4);
 
         return page.getMainView();
     }
