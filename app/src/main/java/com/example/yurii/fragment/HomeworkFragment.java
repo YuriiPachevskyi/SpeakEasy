@@ -54,11 +54,10 @@ public class HomeworkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LessonPage page       = new LessonPage(inflater, this, lesson_);
-        DBHomework homeworkDB = new DBHomework(getContext(), lesson_);
 
-        page.setExercise(1);
-        page.setExercise(3);
-        page.setExercise(4);
+        page.setOneClickExercise(1, "oneClickEx");
+        page.setOneClickExercise(3, "oneClickEx");
+        page.setOneClickExercise(4, "compilerEx");
 
         return page.getMainView();
     }

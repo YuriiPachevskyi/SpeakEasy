@@ -106,7 +106,7 @@ public class DBHomework extends DBExercise {
     public String getVariants(int section) {
         String result     = new String();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query      = "select Answer from homework where Lesson = "
+        String query      = "select Variants from homework where Lesson = "
                 + lesson_ + " and Section = " + section;
         Cursor res        =  db.rawQuery(query, null);
 

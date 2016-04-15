@@ -1,7 +1,10 @@
 package com.example.yurii.page;
 
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.yurii.database.DBHomework;
@@ -21,13 +24,19 @@ public class ExerciseConfig {
     private TextView      resultTextView_;
     private DBHomework    exercise_;
     private List<Integer> mistakeList_;
+    private String        exerciseType_;
 
-    ExerciseConfig(int number, DBHomework exercise) {
+    ExerciseConfig(LessonPage parentPage, int number, DBHomework exercise, String exersiceType) {
         number_           = number;
         exercise_         = exercise;
+        exerciseType_     = exersiceType;
         subSection_       = 0;
         mistakeRandIndex_ = 0;
         mistakeList_      = new ArrayList<Integer>();
+    }
+
+    public void resetSection() {
+        subSection_ = 0;
     }
 
     public void incSection() {
@@ -54,11 +63,16 @@ public class ExerciseConfig {
 
     public TextView setTargetView(TextView view) {
         targetTextView_ = view;
+        targetTextView_.setTextSize(18);
+
         return view;
     }
 
     public TextView setResultView(TextView view) {
         resultTextView_ = view;
+        resultTextView_.setBackground(new ColorDrawable(Color.parseColor("#FAEBD7")));
+        resultTextView_.setTextSize(18);
+
         return view;
     }
 
@@ -68,6 +82,10 @@ public class ExerciseConfig {
 
     public TextView getResultView() {
         return resultTextView_;
+    }
+
+    public String getExerciseType() {
+        return exerciseType_;
     }
 
     public String getTargetText() {
@@ -105,6 +123,10 @@ public class ExerciseConfig {
         return new ArrayList(Arrays.asList(exercise_.getAnswer(number_).split("\\|")));
     }
 
+    public List<String> getVariantsList() {
+        return new ArrayList(Arrays.asList(exercise_.getVariants(number_).split("\\|")));
+    }
+
     public List<String> getVariantsList(List<String> list) {
         String str = new String();
         Set<String> hs = new HashSet<>();
@@ -124,13 +146,18 @@ public class ExerciseConfig {
 
     public void handleMistakeList(String str) {
         if ( str.equals(getResultText()) ) {
+            getResultView().setTextColor(Color.parseColor("#31B404"));
             if ( subSection_ >= getContentListSize() ) {
                 mistakeList_.remove(mistakeRandIndex_);
             }
-        } else if ( subSection_ < getContentListSize() ) {
-            mistakeList_.add(getSection());
-        }
-        Log.e("+++", "handleMistakeList mistakeList = " + mistakeList_.toString());
-    }
+        } else {
+            Set<Integer> hs = new HashSet<Integer>();
 
+            getResultView().setTextColor(Color.parseColor("#FE2E2E"));
+            mistakeList_.add(getSection());
+            hs.addAll(mistakeList_);
+            mistakeList_.clear();
+            mistakeList_.addAll(hs);
+        }
+    }
 }
