@@ -56,8 +56,10 @@ public class HomeworkFragment extends Fragment {
         LessonPage page       = new LessonPage(inflater, this, lesson_);
 
         page.setOneClickExercise(1, "oneClickEx");
-        page.setOneClickExercise(3, "oneClickEx");
+//        page.setOneClickExercise(3, "oneClickEx");
         page.setOneClickExercise(4, "compilerEx");
+
+//        page.setOneClickExercise(2, "compilerEx");
 
         return page.getMainView();
     }

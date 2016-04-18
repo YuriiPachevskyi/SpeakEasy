@@ -29,42 +29,18 @@ public class LessonPage extends CommonPage {
         exercises_       = new ArrayList<ExerciseConfig>();
     }
 
-    public boolean checkIsAll(ExerciseConfig config) {
-        String answer = config.getAnswer();
-        List<String> answerToList = new ArrayList(Arrays.asList(answer.split(" ")));
+    public boolean checkIsFinish(ExerciseConfig config) {
+        List<String> answerToList = new ArrayList(Arrays.asList(config.getAnswer().split(" ")));
         List<String> resultToList = new ArrayList(Arrays.asList(config.getResultText().split(" ")));
 
         if ( resultToList.size() == answerToList.size() ) {
-            if ( config.getExerciseType().equals("compilerEx") ) {
-                String lastChar = answer.substring(answer.length() - 1, answer.length());
-
-                updateResultTextView(lastChar, config);
-            }
-
             return true;
         }
-
         return false;
     }
 
-    void checkIsAnswerCorrect(ExerciseConfig config) {
-        String answer = config.getAnswer();
-        List<String> answerToList = new ArrayList(Arrays.asList(answer.split(" ")));
-        List<String> resultToList = new ArrayList(Arrays.asList(config.getResultText().split(" ")));
-
-        if ( resultToList.size() == answerToList.size() ) {
-            if ( config.getExerciseType().equals("compilerEx") ) {
-                String lastChar = answer.substring(answer.length() - 1, answer.length());
-
-                updateResultTextView(lastChar, config);
-            }
-
-            config.handleMistakeList(answer);
-            setNextVariant(config);
-        }
-    }
-
     void updateResultTextView(String word, ExerciseConfig config) {
+
         if ( word.equals("") ) {
             config.getResultView().setText(new String());
             return;
@@ -74,17 +50,29 @@ public class LessonPage extends CommonPage {
             config.getResultView().setText(result.replaceAll("[_]", word));
             return;
         }
-
         if ( config.getExerciseType().equals("compilerEx") ) {
             if ( config.getResultText().equals("") ) {
                 word = word.substring(0, 1).toUpperCase() + word.substring(1);
-            } else if ( word.equals(".") || word.equals("?") ) {
-                String str = (String) config.getResultView().getText();
-                config.getResultView().setText(str.substring(0, str.length() - 1) + word);
-                return;
             }
 
             config.getResultView().setText(config.getResultText() + word + " ");
+        }
+
+
+        String answer = config.getAnswer();
+        List<String> answerToList = new ArrayList(Arrays.asList(answer.split(" ")));
+        List<String> resultToList = new ArrayList(Arrays.asList(config.getResultText().split(" ")));
+
+
+        if ( resultToList.size() == answerToList.size() ) {
+            if ( config.getExerciseType().equals("compilerEx") ) {
+                String lastChar = answer.substring(answer.length() - 1, answer.length());
+
+                if ( lastChar.equals(".") || lastChar.equals("?") ) {
+                    String str = (String) config.getResultView().getText();
+                    config.getResultView().setText(str.substring(0, str.length() - 1) + lastChar);
+                }
+            }
         }
     }
 
@@ -98,9 +86,9 @@ public class LessonPage extends CommonPage {
         int section = config.getSection();
 
         if ( section >= 0 ) {
-            config.getResultView().setTextColor(config.getTargetView().getCurrentTextColor());
             updateTargetTextView(config.getContentList().get(section), config);
             updateResultTextView("", config);
+            config.resetResultTextViewColor();
         } else {
             config.getResultView().setText("Epic win!!!");
         }
@@ -116,6 +104,8 @@ public class LessonPage extends CommonPage {
             setInstruction("Example:");
             trimConfigValuesAndSetTextView(exercise_.getExamples(section));
         }
+        mainTableLayout.addView(config.setTargetView(targetTextView));
+        mainTableLayout.addView(config.setResultView(resultTextView));
         resultTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View viewIn) {
@@ -123,10 +113,11 @@ public class LessonPage extends CommonPage {
                     List<String> resultText = new ArrayList(Arrays.asList(config.getResultText().split(" ")));
                     String lastWord = resultText.get(resultText.size() - 1) + " ";
                     config.getResultView().setText(config.getResultText().replaceAll(lastWord, ""));
-                } else if ( config.getResultText().equals("Epic win!!!")) {
+                } else if ( config.getResultText().equals("Epic win!!!") ) {
                     config.resetSection();
                     updateResultTextView("", config);
                     updateTargetTextView(config.getContentList().get(config.getSection()), config);
+                    config.resetResultTextViewColor();
                 } else {
                     setNextVariant(config);
                 }
@@ -137,8 +128,6 @@ public class LessonPage extends CommonPage {
         } else if ( config.getExerciseType().equals("compilerEx") ) {
             setVariants(config.getVariantsList(config.getAnswerList()), config);
         }
-        mainTableLayout.addView(config.setTargetView(targetTextView));
-        mainTableLayout.addView(config.setResultView(resultTextView));
         updateTargetTextView(config.getContentList().get(config.getSection()), config);
         exercises_.add(config);
     }
@@ -157,8 +146,10 @@ public class LessonPage extends CommonPage {
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View viewIn) {
-                        updateResultTextView(((TextView) viewIn).getText().toString(), config);
-                        if ( checkIsAll(config) == true ) {
+                        if ( config.getResultView().getCurrentTextColor() == config.getTargetView().getCurrentTextColor() ) {
+                            updateResultTextView(((TextView) viewIn).getText().toString(), config);
+                        }
+                        if ( checkIsFinish(config) == true ) {
                             config.handleMistakeList(config.getAnswer());
                         }
                     }

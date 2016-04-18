@@ -39,6 +39,10 @@ public class ExerciseConfig {
         subSection_ = 0;
     }
 
+    public void resetResultTextViewColor() {
+        resultTextView_.setTextColor(targetTextView_.getCurrentTextColor());
+    }
+
     public void incSection() {
         subSection_ += 1;
     }
@@ -74,6 +78,10 @@ public class ExerciseConfig {
         resultTextView_.setTextSize(18);
 
         return view;
+    }
+
+    public void setResultTextViewColor(String color) {
+        resultTextView_.setTextColor(Color.parseColor(color));
     }
 
     public TextView getTargetView() {
@@ -146,14 +154,14 @@ public class ExerciseConfig {
 
     public void handleMistakeList(String str) {
         if ( str.equals(getResultText()) ) {
-            getResultView().setTextColor(Color.parseColor("#31B404"));
+            setResultTextViewColor("#31B404");
             if ( subSection_ >= getContentListSize() ) {
                 mistakeList_.remove(mistakeRandIndex_);
             }
         } else {
             Set<Integer> hs = new HashSet<Integer>();
 
-            getResultView().setTextColor(Color.parseColor("#FE2E2E"));
+            setResultTextViewColor("#FE2E2E");
             mistakeList_.add(getSection());
             hs.addAll(mistakeList_);
             mistakeList_.clear();
