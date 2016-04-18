@@ -109,11 +109,7 @@ public class LessonPage extends CommonPage {
         resultTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View viewIn) {
-                if ( resultTextView.getCurrentTextColor() == targetTextView.getCurrentTextColor() ) {
-                    List<String> resultText = new ArrayList(Arrays.asList(config.getResultText().split(" ")));
-                    String lastWord = resultText.get(resultText.size() - 1) + " ";
-                    config.getResultView().setText(config.getResultText().replaceAll(lastWord, ""));
-                } else if ( config.getResultText().equals("Epic win!!!") ) {
+                if (config.getResultText().equals("Epic win!!!")) {
                     config.resetSection();
                     updateResultTextView("", config);
                     updateTargetTextView(config.getContentList().get(config.getSection()), config);
