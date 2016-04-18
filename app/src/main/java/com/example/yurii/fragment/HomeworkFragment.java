@@ -13,6 +13,7 @@ import com.example.yurii.database.DBHomework;
 import com.example.yurii.database.DBLessonConfig;
 import com.example.yurii.database.DBMaterial;
 import com.example.yurii.database.DBSpeaking;
+import com.example.yurii.page.Exercise;
 import com.example.yurii.page.LessonPage;
 import com.example.yurii.speakeasy.CommonPage;
 import com.example.yurii.speakeasy.StartUpActivity;
@@ -55,11 +56,10 @@ public class HomeworkFragment extends Fragment {
                              Bundle savedInstanceState) {
         LessonPage page       = new LessonPage(inflater, this, lesson_);
 
-        page.setOneClickExercise(1, "oneClickEx");
-//        page.setOneClickExercise(3, "oneClickEx");
-        page.setOneClickExercise(4, "compilerEx");
-
-//        page.setOneClickExercise(2, "compilerEx");
+        page.setOneClickExercise(1, Exercise.EXERCISE_TYPE.ONE_CLICK);
+        page.setOneClickExercise(2, Exercise.EXERCISE_TYPE.COMPILATION);
+        page.setOneClickExercise(3, Exercise.EXERCISE_TYPE.ONE_CLICK);
+        page.setOneClickExercise(4, Exercise.EXERCISE_TYPE.COMPILATION);
 
         return page.getMainView();
     }
