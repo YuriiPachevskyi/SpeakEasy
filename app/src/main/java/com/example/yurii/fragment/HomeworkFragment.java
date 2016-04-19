@@ -13,6 +13,7 @@ import com.example.yurii.database.DBHomework;
 import com.example.yurii.database.DBLessonConfig;
 import com.example.yurii.database.DBMaterial;
 import com.example.yurii.database.DBSpeaking;
+import com.example.yurii.database.DBVocabulary;
 import com.example.yurii.page.Exercise;
 import com.example.yurii.page.LessonPage;
 import com.example.yurii.speakeasy.CommonPage;
@@ -54,12 +55,25 @@ public class HomeworkFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        LessonPage page       = new LessonPage(inflater, this, lesson_);
+        LessonPage page                = new LessonPage(inflater, this, lesson_);
+        DBLessonConfig lessonConfig    = new DBLessonConfig(getContext(), lesson_);
+        List<String>   blocksStructure = lessonConfig.getKeyValueHomework();
 
-        page.setOneClickExercise(1, Exercise.EXERCISE_TYPE.ONE_CLICK);
-        page.setOneClickExercise(2, Exercise.EXERCISE_TYPE.COMPILATION);
-        page.setOneClickExercise(3, Exercise.EXERCISE_TYPE.ONE_CLICK);
-        page.setOneClickExercise(4, Exercise.EXERCISE_TYPE.COMPILATION);
+        for (String subblock: blocksStructure) {
+            List<String> keyValueNode  = new ArrayList(Arrays.asList(subblock.split("\\:")));
+            int section                = Integer.valueOf(keyValueNode.get(1));
+
+            switch ( keyValueNode.get(0) ) {
+                case "oneClick": {
+                    page.setOneClickExercise(section, Exercise.EXERCISE_TYPE.ONE_CLICK);
+                    break;
+                }
+                case "compilation": {
+                    page.setOneClickExercise(section, Exercise.EXERCISE_TYPE.COMPILATION);;
+                    break;
+                }
+            }
+        }
 
         return page.getMainView();
     }

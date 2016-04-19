@@ -44,6 +44,10 @@ public class DBLessonConfig {
         return pageConfig_.getKeyValueSpeakingConfig();
     }
 
+    public List<String> getKeyValueHomework() {
+        return pageConfig_.getKeyValueHomework();
+    }
+
     public static class DBLessonSignature extends SQLiteOpenHelper {
         public static final String DATABASE  = "content.db";
         public static final String SIGNATURE = "Signature";
@@ -115,6 +119,8 @@ public class DBLessonConfig {
         public static final String LESSON_BLOCK_TYPE = "LessonBlockType";
         public static final String SPEAKING_SECTION = "SpeakingSection";
         public static final String SPEAKING_BLOCK_TYPE = "SpeakingBlockType";
+        public static final String HOMEWORK_SECTION = "HomeworkSection";
+        public static final String HOMEWORK_BLOCK_TYPE = "HomeworkBlockType";
         private DBLessonConfig lessonConfig_;
 
         public DBPageConfig(Context context, DBLessonConfig lessonConfig) {
@@ -131,7 +137,7 @@ public class DBLessonConfig {
         public List<String> getKeyValueLessonConfig() {
             List<String> resultList = new ArrayList<String>();
             SQLiteDatabase db = this.getReadableDatabase();
-            String query = "select * from exercise_config where Lesson = " + lessonConfig_.getLesson();
+            String query = "select * from lesson_config where Lesson = " + lessonConfig_.getLesson();
             Cursor res =  db.rawQuery(query, null);
 
             for ( int i = 0; i < res.getCount(); i++ ) {
@@ -149,13 +155,31 @@ public class DBLessonConfig {
         public List<String> getKeyValueSpeakingConfig() {
             List<String> resultList = new ArrayList<String>();
             SQLiteDatabase db = this.getReadableDatabase();
-            String query = "select * from exercise_config where Lesson = " + lessonConfig_.getLesson()
+            String query = "select * from lesson_config where Lesson = " + lessonConfig_.getLesson()
                     + " and SpeakingSection not null";
             Cursor res =  db.rawQuery(query, null);
 
             for ( ; res.moveToNext() != false; ) {
                 String str = new String(res.getString(res.getColumnIndex(SPEAKING_BLOCK_TYPE))) + ":"
                         + new String(res.getString(res.getColumnIndex(SPEAKING_SECTION)));
+                resultList.add(str);
+            }
+            db.close();
+            res.close();
+
+            return resultList;
+        }
+
+        public List<String> getKeyValueHomework() {
+            List<String> resultList = new ArrayList<String>();
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "select * from lesson_config where Lesson = " + lessonConfig_.getLesson()
+                    + " and HomeworkSection not null";
+            Cursor res =  db.rawQuery(query, null);
+
+            for ( ; res.moveToNext() != false; ) {
+                String str = new String(res.getString(res.getColumnIndex(HOMEWORK_BLOCK_TYPE))) + ":"
+                        + new String(res.getString(res.getColumnIndex(HOMEWORK_SECTION)));
                 resultList.add(str);
             }
             db.close();
