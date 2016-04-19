@@ -61,7 +61,7 @@ public class LessonPage extends CommonPage {
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View viewIn) {
-                        exercise.handleTargetTextViewOnclickEvent(((TextView) viewIn).getText().toString());
+                        exercise.handleVariantOnclickEvent(((TextView) viewIn).getText().toString());
                     }
                 });
                 llv.addView(textView);

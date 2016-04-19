@@ -114,12 +114,12 @@ public class DBLessonConfig {
     }
 
     public static class DBPageConfig extends SQLiteOpenHelper {
-        public static final String DATABASE   = "content.db";
-        public static final String LESSON_SECTION = "LessonSection";
-        public static final String LESSON_BLOCK_TYPE = "LessonBlockType";
-        public static final String SPEAKING_SECTION = "SpeakingSection";
+        public static final String DATABASE            = "content.db";
+        public static final String LESSON_SECTION      = "LessonSection";
+        public static final String LESSON_BLOCK_TYPE   = "LessonBlockType";
+        public static final String SPEAKING_SECTION    = "SpeakingSection";
         public static final String SPEAKING_BLOCK_TYPE = "SpeakingBlockType";
-        public static final String HOMEWORK_SECTION = "HomeworkSection";
+        public static final String HOMEWORK_SECTION    = "HomeworkSection";
         public static final String HOMEWORK_BLOCK_TYPE = "HomeworkBlockType";
         private DBLessonConfig lessonConfig_;
 

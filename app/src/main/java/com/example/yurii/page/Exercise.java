@@ -52,13 +52,15 @@ public class Exercise {
         Pattern cpecialChars  = Pattern.compile("[,.?]");
         Pattern upperCaseChar = Pattern.compile("[A-Z]");
 
-
         if ( exerciseType_ == ONE_CLICK) {
             String resultText = targetTextView_.getText().toString().replaceAll("[_]", word);
 
-            resultText = resultText.substring(3, resultText.length());
+            if ( resultText.substring(3, resultText.length()).toLowerCase().equals(getAnswer().toLowerCase()) ) {
+                resultText = getAnswer();
+            } else {
+                resultText = resultText.substring(3, resultText.length());
+            }
             resultTextView_.setText(resultText);
-
         } else if ( exerciseType_ == COMPILATION ) {
             String answer = getAnswerAsList().get(getResultTextViewAsListSize());
 
@@ -110,7 +112,7 @@ public class Exercise {
         }
     }
 
-    public void handleTargetTextViewOnclickEvent(String word) {
+    public void handleVariantOnclickEvent(String word) {
         if ( keyAnswer.containsKey(getTargetText()) ) {
             if ( resultTextView_.getCurrentTextColor() == targetTextView_.getCurrentTextColor() ) {
                 updateResultTextView(word);
@@ -175,7 +177,7 @@ public class Exercise {
             Set<String> hs            = new HashSet<>();
 
             for (String block: variantsList) {
-                block = block.replaceAll("[.,?]","").toLowerCase();
+                block = block.replaceAll("[.,?!]","").toLowerCase();
                 str += block + " ";
             }
             variantsList =  new ArrayList(Arrays.asList(str.split(" ")));
