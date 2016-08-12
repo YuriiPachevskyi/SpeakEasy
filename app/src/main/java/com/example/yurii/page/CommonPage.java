@@ -1,8 +1,7 @@
 package com.example.yurii.speakeasy;
 
-import android.graphics.drawable.ColorDrawable;
+
 import android.support.v4.app.Fragment;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -30,7 +29,6 @@ public class CommonPage {
     protected Fragment parentFragment_;
     protected TableLayout mainTableLayout;
     private ScrollView mainView_;
-    private Context context;
 
     protected int          displayWidth;
     private int            minColumnWidth;
@@ -235,51 +233,6 @@ public class CommonPage {
         }
         if ( !insturctionContent.isEmpty() ) {
             trimConfigValuesAndSetTextView(insturctionContent);
-        }
-    }
-
-    public void setOnclickLessons(List<String> lessonsList, final StartUpActivity mediator) {
-        for ( int i = 0; i < lessonsList.size(); i++ ) {
-            TextView textView = getSimpleTextView(lessonsList.get(i));
-            textView.setTextSize(20);
-            textView.setPadding(12, 6, 12, 6);
-            textView.setLayoutParams(layoutParams);
-
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View viewIn) {
-                    String lessonSignature = ((TextView) viewIn).getText().toString();
-                    String lessonNumber = new String();
-
-                    for (int i = 0; i < lessonSignature.length(); i++) {
-                        if (lessonSignature.charAt(i) == ' ') {
-                            break;
-                        }
-                        lessonNumber += lessonSignature.charAt(i);
-                    }
-                    mediator.showLesson(Integer.parseInt(lessonNumber));
-                }
-            });
-            mainTableLayout.addView(textView);
-        }
-    }
-
-    public void setOnclickTags(List<String> tagsList, final StartUpActivity mediator) {
-
-        for ( int i = 0; i < tagsList.size(); i++ ) {
-            TextView textView = getSimpleTextView(tagsList.get(i));
-            textView.setTextSize(18);
-            textView.setPadding(12, 6, 12, 12);
-            textView.setLayoutParams(layoutParams);
-
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View viewIn) {
-                    mediator.showMaterial(((TextView) viewIn).getText().toString());
-                }
-            });
-
-            mainTableLayout.addView(textView);
         }
     }
 
