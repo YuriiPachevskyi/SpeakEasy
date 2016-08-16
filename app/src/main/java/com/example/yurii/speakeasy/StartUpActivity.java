@@ -119,6 +119,7 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
             showLessonsList();
         } else if ( prevWindowState == PAGE_TYPE.LESSON && currentWindowState != PAGE_TYPE.TAGS ) {
             showLesson(currentLesson);
+            updateWindowState(false);
         } else if ( currentWindowState == PAGE_TYPE.TAGS ) {
             showLessonsList();
         }
@@ -195,7 +196,6 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.material_frame_layout, materialFragment, MATERIAL_FRAGMENT)
                 .commit();
-        updateWindowState(false);
     }
 
     @Override
@@ -211,7 +211,6 @@ public class StartUpActivity extends NavigationLiveo implements OnItemClickListe
         currentLesson      = lesson;
         prevWindowState    = currentWindowState;
         currentWindowState = PAGE_TYPE.LESSON;
-        updateWindowState(true);
     }
 
     @Override

@@ -90,6 +90,7 @@ public class ViewPagerFragment extends Fragment {
             @Override
             public void onPageScrollStateChanged(int arg0) {}
         });
+        mediator_.updateWindowState(true);
     }
 
     public TabLayout getSlidingTabLayout() {

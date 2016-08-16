@@ -55,4 +55,10 @@ public class MaterialFragment extends Fragment {
 
         return  page.getMainView();
     }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mediator_.updateWindowState(false);
+    }
 }
